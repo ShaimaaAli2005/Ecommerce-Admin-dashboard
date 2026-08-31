@@ -1,7 +1,7 @@
-import postcss, { plugin } from "postcss";
+import postcss, { plugins} from "postcss";
 
 export default{
-    plugin:{
+    plugins:{
         tailwind:{},
         autoprefixer: {},
     }
