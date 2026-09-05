@@ -80,3 +80,11 @@ h2 {
 p {
   margin: 0;
 }
+
+.filter-icon{
+  color: #7B8190;
+ padding-left: 60%;
+  font-size: small;
+  position: absolute;
+  display: flex;
+}
