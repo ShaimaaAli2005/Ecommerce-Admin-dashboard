@@ -1,20 +1,40 @@
 import { useState } from "react";
 import { Check } from "lucide-react";
+import axios from "axios";
 
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault(); 
+  try {
+    const response = await axios.post(
+      "https://e-commerce-api-3wara.vercel.app/auth/login",
+      {
+        email,
+        password,
+      }
+    );
 
-    console.log({
-      email,
-      password,
-    });
-  };
+    console.log("Login response:", response.data);
 
+    const { token, user } = response.data;
+
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(user));
+
+    console.log("Token saved:", token);
+    console.log("User saved:", user);
+
+  } catch (error) {
+    console.error(
+      "Login failed:",
+      error.response?.data || error.message
+    );
+  }
+};
   return (
     <div className="min-h-screen bg-[#F7F5F0] flex items-center justify-center p-6">
       <div className="w-full max-w-6xl min-h-[650px] bg-white rounded-2xl overflow-hidden shadow-sm border border-[#E5E7EB] flex">
