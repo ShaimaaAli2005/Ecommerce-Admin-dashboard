@@ -1,20 +1,16 @@
 @import "tailwindcss";
 
 :root {
-    --primary: #17233C;
-    --secondary: #60708F;
-    --accent: #E89A5B;
-    --background: #F7F5F0;
-    --white: #FFFFFF;
-    --text: #1F2937;
-    --muted: #7B8190;
-    --success: #4F8A70;
-    --error: #C95C5C;
-    --border: #E5E7EB;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  --primary: #17233C;
+  --secondary: #60708F;
+  --accent: #E89A5B;
+  --background: #F7F5F0;
+  --white: #FFFFFF;
+  --text: #1F2937;
+  --muted: #7B8190;
+  --success: #4F8A70;
+  --error: #C95C5C;
+  --border: #E5E7EB;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -84,7 +80,62 @@ p {
 .filter-icon{
   color: #7B8190;
  padding-left: 60%;
+/* ضبط استجابة الخط للحجم الأصغر بشكل مستقل خارج :root */
+@media (max-width: 1024px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+.filter-icon {
+  color: var(--muted);
+  padding-left: 60%;
   font-size: small;
   position: absolute;
   display: flex;
+}
+
+/* 1. تصميم الكارت والخط العلوي المتدرج الثابت */
+.dash-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* الخط العلوي الثابت مع التدرج المميز لبراند LUMA */
+.dash-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+  transition: transform 0.3s ease;
+}
+
+/* 2. أنيميشن ظهور الكروت تدريجياً (Staggered Entrance) */
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-card {
+  opacity: 0;
+  animation: cardEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  /* تفعيل الظهور المتتابع للـ 6 كروت عبر --stagger-index */
+  animation-delay: calc(var(--stagger-index, 0) * 0.12s);
+}
+
+/* 3. توقف الأنيميشن وارتفاع الكارت بسلاسة عند الـ Hover */
+.animate-card:hover {
+  animation-play-state: paused;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px -5px rgba(23, 35, 60, 0.08);
 }
