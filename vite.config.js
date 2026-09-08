@@ -14,4 +14,8 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  //  server: {
+  //   port: 5174, // ثبتي البورت هنا
+  //   strictPort: true // لو البورت مشغول يديكِ إيرور وما يغيروش لوحده لمكان تاني
+  // }
 })

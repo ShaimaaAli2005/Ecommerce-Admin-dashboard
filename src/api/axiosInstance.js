@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: "https://e-commerce-api-3wara.vercel.app",
+  baseURL: "https://koda-store-dashboard.vercel.app",
    withCredentials : true,
   headers: {
     'Content-Type': 'application/json',

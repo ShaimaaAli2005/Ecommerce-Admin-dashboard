@@ -57,7 +57,7 @@ h1, h2 {
   font-weight: 500;
 }
 
-h1 {
+/* h1 {
   font-size: 56px;
   letter-spacing: -1.68px;
   margin: 32px 0;
@@ -75,7 +75,7 @@ h2 {
   @media (max-width: 1024px) {
     font-size: 20px;
   }
-}
+} */
 
 p {
   margin: 0;
@@ -87,4 +87,8 @@ p {
   font-size: small;
   position: absolute;
   display: flex;
+}
+.detailes-t{
+  font-family:'Poppins';
+
 }
