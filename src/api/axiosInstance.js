@@ -2,11 +2,10 @@ import axios from 'axios';
 
 const axiosInstance = axios.create({
   baseURL: "https://e-commerce-api-3wara.vercel.app",
-  // baseURL: import.meta.env.VITE_API_BASE_URL  ,
    withCredentials : true,
-  // headers: {
-  //   'Content-Type': 'application/json',
-  // },
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 axiosInstance.interceptors.request.use(
   (config) => {
