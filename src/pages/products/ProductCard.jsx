@@ -105,7 +105,9 @@ import {
                                </button>
 
                                  <button className="flex items-center gap-1.5 rounded-xl border px-4 py-2 mt-3
-                               text-xs font-semibold cursor-pointer hover:bg-[#1F2937] hover:text-white">
+                               text-xs font-semibold cursor-pointer hover:bg-[#1F2937] hover:text-white"
+                               onClick={()=>navigate(`/products/edit/${product.id}`)}
+                               >
                                 <FontAwesomeIcon icon={faPencil}></FontAwesomeIcon>
                                    Edit
                                </button>

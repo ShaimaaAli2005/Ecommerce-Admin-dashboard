@@ -1,13 +1,12 @@
 
 import { useState } from "react";
 import ProductDetailes from "./pages/products/ProductDetailes"
+import EditProduct from "./pages/products/EditProduct"
 import ProductList from "./pages/products/ProductsList"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from "react";
 import Login from "./pages/login.jsx";
 import Dashboard from "./pages/dashboard/Dashboard.jsx";
-import ProductList from "./pages/products/ProductsList";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
 function App(){
@@ -106,9 +105,7 @@ function App(){
 }
 
     ]);
-
-function App() {
-  return (
+return (
     <BrowserRouter>
       <div>
         <Routes>
@@ -129,10 +126,12 @@ function App() {
           {/* <Route path="/users" element={<Users />} /> */}
           {/* صفحة المنتجات على مسار منفصل */}
           <Route path="/products" element={<ProductList />} />
+          <Route path="/products/edit/:id" element={<EditProduct products={products} setProducts={setProducts}/>}/>
+
         </Routes>
       </div>
     </BrowserRouter>
-  );
-}}
+  )
+}
 
 export default App;
