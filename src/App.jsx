@@ -1,25 +1,34 @@
-
-
-import ProductList from "./pages/products/ProductsList"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Login from "./pages/login.jsx";
+import Navbar from "./components/Navbar.jsx";
+import Sidebar from "./components/Sidebar.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
 
-
-function App(){
-  return(
-    <BrowserRouter>
-    <div>
+function App() {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
         <Routes>
-          {/* دي صفحة المنتجات هتظهر لما تدخلي على الصفحة الرئيسية */}
-          <Route path="/" element={<ProductList />} />
-          
-          {/* دي صفحة تسجيل الدخول */}
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </div>
-      </BrowserRouter>
-  )
 
- }
+         
+          <Route path="/login" element={<Login />} />
+
+        
+          <Route
+            path="/test"
+            element={
+              <>
+                <Navbar />
+                <Sidebar />
+              </>
+            }
+          />
+
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
+  );
+}
 
 export default App;
