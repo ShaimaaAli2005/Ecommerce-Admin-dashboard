@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+:root {
+  /* LUMA team identity — keep these colors consistent across the dashboard */
+  --primary: #17233C;
+  --secondary: #60708F;
+  --accent: #E89A5B;
+  --background: #F7F5F0;
+  --white: #FFFFFF;
+  --text: #1F2937;
+  --muted: #7B8190;
+  --success: #4F8A70;
+  --error: #C95C5C;
+  --border: #E5E7EB;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+::selection {
+  background: rgba(232, 154, 91, 0.22);
+  color: var(--primary);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(96, 112, 143, 0.45);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
+}
+
+/* Existing dashboard card effects, using only the LUMA palette. */
+.dash-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dash-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+}
+
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-card {
+  opacity: 0;
+  animation: cardEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: calc(var(--stagger-index, 0) * 0.12s);
+}
+
+.animate-card:hover {
+  animation-play-state: paused;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px -5px rgba(23, 35, 60, 0.08);
+}
+
+/* Keep the fixed admin shell usable on smaller screens. */
+@media (max-width: 1024px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-shell-sidebar {
+    width: 76px;
+  }
+}
