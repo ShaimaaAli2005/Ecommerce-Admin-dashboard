@@ -1,11 +1,16 @@
-
+import { useState } from "react";
 import AdminLayout from "./layouts/AdminLayout.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import React from "react";
 import Login from "./pages/login.jsx";
 import Dashboard from "./pages/dashboard/Dashboard.jsx";
 import ProductList from "./pages/products/ProductsList";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import ProductCard from "./pages/products/ProductCard.jsx";
+import ProductDetailes from "./pages/products/ProductDetailes.jsx";
+import EditProduct from "./pages/products/EditProduct.jsx";
+
+
 
 
 function App(){
@@ -116,7 +121,10 @@ return (
           <Route element={<AdminLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/products" element={<ProductList />} />
+            <Route path="/products" element={<ProductList products={products}/>} />
+            <Route path="/products/:id" element={<ProductDetailes products={products}/>}/>
+            <Route path="/products/edit/:id" element={<EditProduct products={products} setProducts={setProducts}/>}/>
+
           </Route>
 
            {/* Keep unknown routes inside the admin area */}
