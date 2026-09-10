@@ -1,10 +1,10 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "./pages/login.jsx";
 import Dashboard from "./pages/dashboard/Dashboard.jsx";
-import ProductList from "./pages/products/ProductsList";
-import Navbar from "./components/Navbar.jsx";
-import Sidebar from "./components/Sidebar.jsx";
+import ProductList from "./pages/products/ProductsList.jsx";
+import AdminLayout from "./layouts/AdminLayout.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 
 function App() {
@@ -12,56 +12,18 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-
-         
+      
           <Route path="/login" element={<Login />} />
 
+         
+          <Route element={<AdminLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/products" element={<ProductList />} />
+          </Route>
+
         
-          <Route
-            path="/"
-            element={
-              <>
-                <Navbar />
-                <Sidebar />
-                <Dashboard />
-              </>
-            }
-          />
-
-          <Route
-            path="/dashboard"
-            element={
-              <>
-                <Navbar />
-                <Sidebar />
-                <Dashboard />
-              </>
-            }
-          />
-
-     
-          <Route
-            path="/products"
-            element={
-              <>
-                <Navbar />
-                <Sidebar />
-                <ProductList />
-              </>
-            }
-          />
-
-       
-          <Route
-            path="/test"
-            element={
-              <>
-                <Navbar />
-                <Sidebar />
-              </>
-            }
-          />
-
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
@@ -69,4 +31,3 @@ function App() {
 }
 
 export default App;
-
