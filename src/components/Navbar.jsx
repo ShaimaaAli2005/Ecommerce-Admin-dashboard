@@ -13,6 +13,7 @@ function Navbar() {
 
   return (
     <nav className="fixed left-60 right-0 top-0 z-40 flex h-24 items-center justify-between border-b border-[#E5E7EB] bg-white/95 px-8 backdrop-blur-sm">
+      {/* Page / brand identity */}
       
    
       <div className="flex items-center gap-4">
@@ -31,6 +32,8 @@ function Navbar() {
         </div>
       </div>
 
+      {/* Actions / profile */}
+      <div className="flex items-center gap-3">
     
       <div className="flex items-center gap-3">
 
@@ -68,6 +71,10 @@ function Navbar() {
             <p className="text-sm font-semibold leading-tight text-[#17233C]">
               ADMIN
             </p>
+            <p className="mt-0.5 text-xs text-[#7B8190]">Administrator</p>
+          </div>
+        </div>
+
 
             <p className="mt-0.5 text-xs text-[#7B8190]">
               Administrator
@@ -91,3 +98,4 @@ function Navbar() {
 }
 
 export default Navbar;
+
