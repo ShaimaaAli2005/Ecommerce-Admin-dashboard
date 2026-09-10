@@ -14,7 +14,7 @@ function Navbar() {
   return (
     <nav className="fixed left-60 right-0 top-0 z-40 flex h-24 items-center justify-between border-b border-[#E5E7EB] bg-white/95 px-8 backdrop-blur-sm">
       
-      {/* Page / brand identity */}
+   
       <div className="flex items-center gap-4">
         <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#17233C] text-xl font-bold text-[#E89A5B] shadow-sm">
           L
@@ -31,10 +31,10 @@ function Navbar() {
         </div>
       </div>
 
-      {/* Actions / profile */}
+    
       <div className="flex items-center gap-3">
 
-        {/* Notifications */}
+     
         <button
           type="button"
           aria-label="Notifications"
