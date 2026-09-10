@@ -37,12 +37,12 @@ export default function EditProduct({ products }) {
             </div>
             
             {/* Main Content Grid */}
-            <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 bg-blue-200">
                 
                 {/* Left Side Card */}
                 <div className="bg-white rounded-3xl p-6 shadow-sm space-y-6 border border-gray-200">
                     
-                    {/* 1. Header (Icon + Title & Description) -> جنب بعض */}
+                    {/* 1. Header (Icon + Title & Description) */}
                     <div className="flex items-center gap-4">
                         <div className="bg-gray-100 rounded-2xl p-3 shrink-0">
                             <FontAwesomeIcon icon={faImage} className="text-2xl text-[#17233C]" />
@@ -53,17 +53,72 @@ export default function EditProduct({ products }) {
                         </div>
                     </div>
 
-                    {/* 2. Image Container -> هتنزل تحت الكلام وتملى العرض */}
-                    <div className="bg-gray-50 rounded-2xl shadow-inner flex items-center justify-center h-80 overflow-hidden border border-gray-100">
+                    {/* 2. Image Container */}
+                    <div className="space-y-4 mt-6 mb-10">
+                        <article className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+                        <div className="h-52 bg-white w-full overflow-hidden bg-slate-100">
                         <img 
                            src={product.image[0]} 
                            alt={product.name} 
-                           className="object-cover w-full h-full rounded-xl"
+                           className="object-cover w-full h-full"
                         />
+                         </div>
+                        <div className="px-5 py-3 text-xs font-semibold text-[#17233C] uppercase tracking-[0.25em] bg-white border-t border-slate-100">
+                            image 1
+                        </div>
+                         </article>
+                   
+                     {/*(Dashed Box) */}
+                       <div className="border-2 border-dashed border-gray-400 bg-gray-50/30 rounded-3xl p-6 text-center cursor-pointer hover:bg-indigo-50/50 transition duration-300 flex flex-col items-center justify-center">
+                           <div className="text-[#17233C] text-2xl mb-2">
+                              <FontAwesomeIcon icon={faImage} />
+                           </div>
+                           <h3 className="font-bold text-[#17233C] text-sm">Add more images</h3>
+                           <p className="text-xs text-gray-400 mt-1">PNG, JPG, WEBP • multiple files supported</p>
+                        </div>
+
+                        <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 flex items-start gap-3">
+                        <span className="text-emerald-500 text-sm mt-0.5">✨</span>
+                        <div>
+                        <h4 className="text-xs font-bold text-emerald-800 uppercase tracking-wider">Senior UX</h4>
+                         <p className="text-xs text-emerald-700/80 mt-0.5">Edit without losing the existing product story, while still adding fresh media.</p>
+                        </div>
+                       </div>
+
                     </div>
+                   
 
                 </div>
 
+
+             {/* Left Side Card */}
+             <div className="bg-white rounded-3xl p-6 shadow-sm space-y-6 border border-gray-200">
+
+                <div className="grid gap-5">
+                <label className="block">
+                    <span className="mb-2 block text-sm font-semibold text-slate-700">Product Name</span>
+                    <input className="h-14 w-full rounded-2xl px-5 outline-none border border-slate-200" value={product.name}></input>
+                </label>
+
+                 <label className="block">
+                    <span className="mb-2 block text-sm font-semibold text-slate-700">Short Description</span>
+                    <input className="h-14 w-full rounded-2xl px-5 outline-none border border-slate-200" value={product.name}></input>
+                </label>
+
+                 <label className="block">
+                    <span className="mb-2 block text-sm font-semibold text-slate-700">Description</span>
+                    <textarea rows="5" className="w-full rounded-2xl px-5 py-4 outline-none border border-slate-200" value={product.name}>
+                        A premium laptop with powerful performance, a high quality display, and a modern professional design.
+                    </textarea>
+                </label>
+
+                <div className="grid gap-5 md:grid-cols-2">
+
+                </div>
+
+                </div>
+                
+             </div>
             </div>
         </div>
     );

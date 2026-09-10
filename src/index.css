@@ -157,4 +157,6 @@ p {
 
   box-shadow: 0 10px 20px -5px rgba(23, 35, 60, 0.08);
 }
-
+.block{
+  display: block;
+}
