@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  /* LUMA team identity — keep these colors consistent across the dashboard */
+  /* LUMA team identity */
   --primary: #17233C;
   --secondary: #60708F;
   --accent: #E89A5B;
@@ -29,8 +29,8 @@ body {
   min-height: 100vh;
   background: var(--background);
   color: var(--text);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -68,13 +68,23 @@ button {
   background: var(--secondary);
 }
 
-/* Existing dashboard card effects, using only the LUMA palette. */
+/* Filter icon */
+.filter-icon {
+  color: var(--muted);
+  padding-left: 60%;
+  font-size: small;
+  position: absolute;
+  display: flex;
+}
+
+/* Dashboard cards */
 .dash-card {
   position: relative;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* LUMA top gradient */
 .dash-card::before {
   content: "";
   position: absolute;
@@ -82,9 +92,15 @@ button {
   left: 0;
   width: 100%;
   height: 4px;
-  background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--primary) 0%,
+    var(--accent) 100%
+  );
+  transition: transform 0.3s ease;
 }
 
+/* Card entrance animation */
 @keyframes cardEntrance {
   from {
     opacity: 0;
@@ -109,7 +125,7 @@ button {
   box-shadow: 0 10px 20px -5px rgba(23, 35, 60, 0.08);
 }
 
-/* Keep the fixed admin shell usable on smaller screens. */
+/* Responsive */
 @media (max-width: 1024px) {
   html {
     font-size: 15px;
