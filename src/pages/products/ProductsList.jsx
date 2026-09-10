@@ -8,7 +8,7 @@ import {faSearch, faFilter} from '@fortawesome/free-solid-svg-icons'
 
 import ProductCard from "./ProductCard";
 
-export default function ProductList() {
+export default function ProductList({products}) {
 
     const [isOpen, setIsOpen] = useState(false);
     const [search, setSearch] = useState('');
@@ -77,12 +77,7 @@ export default function ProductList() {
                         }}
                         
                     >
-
-                      
                         {selectedCategory === 'all' ? 'Filter': selectedCategory}
-                       <span className="filter-btn">
-                        {selectedCategory === 'all' ? 'Filter': selectedCategory}
-                       </span>
 
                        {selectedCategory==='all'?  <FontAwesomeIcon icon={faFilter}/>:null}
                     </button>
@@ -115,7 +110,7 @@ export default function ProductList() {
             {loading ? (
                 <div className="text-center py-12" style={{ color: '#7B8190' }}>Loading...</div>
             ) : currentProducts.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2  gap-6">
                     {currentProducts.map((product) => (
                         <ProductCard key={product.id} product={product} />
                     ))}
