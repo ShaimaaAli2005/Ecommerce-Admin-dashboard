@@ -114,7 +114,7 @@ return (
                <BrowserRouter>
       <div>
         <Routes>
-          {/* صفحة تسجيل الدخول */}
+      
           <Route path="/login" element={<Login />} />
 
             {/* All admin pages share the same Navbar + Sidebar layout */}

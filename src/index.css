@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  /* LUMA team identity */
   --primary: #17233C;
   --secondary: #60708F;
   --accent: #E89A5B;
@@ -35,27 +36,31 @@
     --social-bg: rgba(47, 48, 58, 0.5);
     --shadow: rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
   }
+* {
+  box-sizing: border-box;
+}
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-} */
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+}
 
 body {
   margin: 0;
-  background-color: var(--background);
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--background);
   color: var(--text);
-  font-family: 'Inter', sans-serif;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+button,
+input,
+select,
+textarea {
+  font: inherit;
 }
 
 /* h1, h2 {
@@ -81,9 +86,22 @@ h2 {
     font-size: 20px;
   }
 } */
+button {
+  cursor: pointer;
+}
 
-p {
-  margin: 0;
+::selection {
+  background: rgba(232, 154, 91, 0.22);
+  color: var(--primary);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
 }
 
 
@@ -98,6 +116,16 @@ p {
 }
 
 
+::-webkit-scrollbar-thumb {
+  background: rgba(96, 112, 143, 0.45);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
+}
+
+/* Filter icon */
 .filter-icon {
   color: var(--muted);
   padding-left: 60%;
@@ -169,6 +197,7 @@ button {
 
 /* Existing dashboard card effects, using only the LUMA palette. */
 
+/* Dashboard cards */
 .dash-card {
   position: relative;
   overflow: hidden;
@@ -176,6 +205,7 @@ button {
 }
 
 
+/* LUMA top gradient */
 .dash-card::before {
   content: "";
   position: absolute;
@@ -183,13 +213,18 @@ button {
   left: 0;
   width: 100%;
   height: 4px;
-  background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--primary) 0%,
+    var(--accent) 100%
+  );
   transition: transform 0.3s ease;
 }
 
 /* 2. أنيميشن ظهور الكروت تدريجياً (Staggered Entrance) */
 }
 
+/* Card entrance animation */
 @keyframes cardEntrance {
   from {
     opacity: 0;
@@ -210,7 +245,6 @@ button {
   animation-delay: calc(var(--stagger-index, 0) * 0.12s);
 }
 
-/* 3. توقف الأنيميشن وارتفاع الكارت بسلاسة عند الـ Hover */
 .animate-card:hover {
   animation-play-state: paused;
   transform: translateY(-5px);
@@ -232,6 +266,8 @@ button {
 }
 
 /* Keep the fixed admin shell usable on smaller screens. */
+
+/* Responsive */
 @media (max-width: 1024px) {
   html {
     font-size: 15px;
@@ -243,4 +279,5 @@ button {
     width: 76px;
   }
 
+}
 }
