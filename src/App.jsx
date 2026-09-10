@@ -1,12 +1,11 @@
 
-import { useState } from "react";
-import ProductDetailes from "./pages/products/ProductDetailes"
-import EditProduct from "./pages/products/EditProduct"
-import ProductList from "./pages/products/ProductsList"
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AdminLayout from "./layouts/AdminLayout.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
 import React from "react";
 import Login from "./pages/login.jsx";
 import Dashboard from "./pages/dashboard/Dashboard.jsx";
+import ProductList from "./pages/products/ProductsList";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
 function App(){
@@ -106,31 +105,28 @@ function App(){
 
     ]);
 return (
-    <BrowserRouter>
+        <AuthProvider>
+               <BrowserRouter>
       <div>
         <Routes>
-
-          {/* دي صفحة المنتجات هتظهر لما تدخلي على الصفحة الرئيسية */}
-          <Route path="/" element={<ProductList products={products}/>} />
-          
-          {/* دي صفحة تسجيل الدخول */}
-          <Route path="/login" element={<Login />} />
-
-          {/*product detailes page*/}
-          <Route path="/products/:id" element={<ProductDetailes products={products}/>}/>
           {/* صفحة تسجيل الدخول */}
           <Route path="/login" element={<Login />} />
-          {/* الصفحة الرئيسية للـ Dashboard */}
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          {/* <Route path="/users" element={<Users />} /> */}
-          {/* صفحة المنتجات على مسار منفصل */}
-          <Route path="/products" element={<ProductList />} />
-          <Route path="/products/edit/:id" element={<EditProduct products={products} setProducts={setProducts}/>}/>
 
+            {/* All admin pages share the same Navbar + Sidebar layout */}
+          <Route element={<AdminLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/products" element={<ProductList />} />
+          </Route>
+
+           {/* Keep unknown routes inside the admin area */}
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </div>
     </BrowserRouter>
+        </AuthProvider>
+
+
   )
 }
 
