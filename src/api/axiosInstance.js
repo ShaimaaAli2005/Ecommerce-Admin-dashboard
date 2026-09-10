@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const axiosInstance = axios.create({
   baseURL: "https://koda-store-dashboard.vercel.app",
-   withCredentials : true,
+  withCredentials : true,
   headers: {
     'Content-Type': 'application/json',
   },

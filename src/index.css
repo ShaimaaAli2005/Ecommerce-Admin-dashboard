@@ -14,6 +14,7 @@
 }
 
 
+
 /* ضبط استجابة الخط للحجم الأصغر بشكل مستقل خارج :root */
 @media (max-width: 1024px) {
   html {
@@ -111,13 +112,70 @@ p {
 
 }
 /* 1. تصميم الكارت والخط العلوي المتدرج الثابت */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+::selection {
+  background: rgba(232, 154, 91, 0.22);
+  color: var(--primary);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(96, 112, 143, 0.45);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
+}
+
+/* Existing dashboard card effects, using only the LUMA palette. */
+
 .dash-card {
   position: relative;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* الخط العلوي الثابت مع التدرج المميز لبراند LUMA */
+
 .dash-card::before {
   content: "";
   position: absolute;
@@ -130,11 +188,14 @@ p {
 }
 
 /* 2. أنيميشن ظهور الكروت تدريجياً (Staggered Entrance) */
+}
+
 @keyframes cardEntrance {
   from {
     opacity: 0;
     transform: translateY(25px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -144,6 +205,7 @@ p {
 .animate-card {
   opacity: 0;
   animation: cardEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
   /* تفعيل الظهور المتتابع للـ 6 كروت عبر --stagger-index */
   animation-delay: calc(var(--stagger-index, 0) * 0.12s);
 }
@@ -153,10 +215,32 @@ p {
   animation-play-state: paused;
   transform: translateY(-5px);
   box-shadow: 0 10px 20px -5px rgba(23, 35, 60, 0.08); 
-}
+
 
   box-shadow: 0 10px 20px -5px rgba(23, 35, 60, 0.08);
 }
 .block{
   display: block;
+
+  animation-delay: calc(var(--stagger-index, 0) * 0.12s);
+}
+
+.animate-card:hover {
+  animation-play-state: paused;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px -5px rgba(23, 35, 60, 0.08);
+}
+
+/* Keep the fixed admin shell usable on smaller screens. */
+@media (max-width: 1024px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-shell-sidebar {
+    width: 76px;
+  }
+
 }

@@ -5,12 +5,11 @@ import placeholderImg from '../../assets/images/placeholder.png';
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faSearch, faFilter} from '@fortawesome/free-solid-svg-icons'
+
 import ProductCard from "./ProductCard";
 
+export default function ProductList() {
 
-
-export default function ProductList({products}) {
-    
     const [isOpen, setIsOpen] = useState(false);
     const [search, setSearch] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('all');
@@ -18,29 +17,7 @@ export default function ProductList({products}) {
     
     const [page, setPage] = useState(1);
     const [itemsPerPage,setItemsPerPage] = useState(4);
-   
 
-    // const fetchProducts = async () => {
-    //     setLoading(true);
-    //     try {
-    //         const response = await axiosInstance.get(`/products?page=${page}&search=${search}`);
-    //         const productsData = Array.isArray(response.data) 
-    //             ? response.data 
-    //             : response.data.products || response.data.data || [];
-            
-    //         if (productsData.length > 0) {
-    //             setProducts(productsData);
-    //         }
-    //     } catch (error) {
-    //         console.error('Error fetching products:', error);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
-
-    // useEffect(() => {
-        //   fetchProducts();
-    // }, [page, search]);
 
 
     // filteration
@@ -100,8 +77,13 @@ export default function ProductList({products}) {
                         }}
                         
                     >
+
                       
                         {selectedCategory === 'all' ? 'Filter': selectedCategory}
+                       <span className="filter-btn">
+                        {selectedCategory === 'all' ? 'Filter': selectedCategory}
+                       </span>
+
                        {selectedCategory==='all'?  <FontAwesomeIcon icon={faFilter}/>:null}
                     </button>
                     {isOpen && (
@@ -128,14 +110,14 @@ export default function ProductList({products}) {
                 </div>
             </div>
 
-            {/* Cards Grid */}
+
+           {/* Cards Grid */}
             {loading ? (
                 <div className="text-center py-12" style={{ color: '#7B8190' }}>Loading...</div>
-            ) : currentProducts.length > 0 ? ( 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-    
+            ) : currentProducts.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {currentProducts.map((product) => (
-                       <ProductCard key={product.id} product={product}/>
+                        <ProductCard key={product.id} product={product} />
                     ))}
                 </div>
             ) : (
@@ -143,7 +125,7 @@ export default function ProductList({products}) {
                     No results for this search
                 </div>
             )}
-            
+
              
             {/* Pagination */}
             
@@ -162,22 +144,24 @@ export default function ProductList({products}) {
                 >
                     previous
                 </button>
-                <span className="font-medium" style={{ color: '#7B8190' }}>page: {page}</span>
+             <span className="font-medium" style={{ color: '#7B8190' }}>
+                    page: {page} of {numOfPage || 1}
+                </span>
+
                 <button
                     onClick={() => setPage((prev) => prev + 1)}
-                    disabled = {page >= numOfPage}
+                    disabled={page >= numOfPage}
                     className="px-4 py-2 text-white font-medium transition cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
                     style={{
                         backgroundColor: '#17233C',
-                        borderRadius: '10px',
+                        borderRadius: '10px'
                     }}
-                    
                     onMouseEnter={(e) => e.target.style.backgroundColor = '#E89A5B'}
                     onMouseLeave={(e) => e.target.style.backgroundColor = '#17233C'}
                 >
                     next
                 </button>
-                
+
             </div>
         </div> 
     );
