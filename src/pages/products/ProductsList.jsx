@@ -1,143 +1,9 @@
 import { useState, useEffect } from "react";
 import axiosInstance from "../../api/axiosInstance";
-
-import placeholderImg from "../../assets/images/placeholder.png";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faSearch,
-  faFilter,
-} from "@fortawesome/free-solid-svg-icons";
+import ProductCard from "./ProductCard";
 
 export default function ProductList() {
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      name: "Vintage Brown Leather Watch",
-      price: 150,
-      category: "Watches",
-      rating: 4.5,
-      image:
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500",
-    },
-    {
-      id: 2,
-      name: "Rose Gold Smartwatch",
-      price: 230,
-      category: "Watches",
-      rating: 2.5,
-      image:
-        "https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=500",
-    },
-    {
-      id: 3,
-      name: "Black Steel Chronograph",
-      price: 190,
-      category: "Watches",
-      rating: 3.2,
-      image:
-        "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500",
-    },
-    {
-      id: 4,
-      name: "Ford Mustang GT",
-      price: 120,
-      category: "Cars",
-      rating: 3.2,
-      image:
-        "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=500",
-    },
-    {
-      id: 5,
-      name: "Porsche Spider",
-      price: 120,
-      category: "Cars",
-      rating: 3,
-      image:
-        "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=500",
-    },
-    {
-      id: 6,
-      name: "Golden Diamond Necklace",
-      price: 450,
-      category: "Accessories",
-      rating: 5,
-      image:
-        "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=500",
-    },
-    {
-      id: 7,
-      name: "Classic Tan Belt",
-      price: 95,
-      category: "Accessories",
-      rating: 4,
-      image:
-        "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=500",
-    },
-    {
-      id: 8,
-      name: "Designer Leather Wallet",
-      price: 60,
-      category: "Accessories",
-      rating: 4.2,
-      image:
-        "https://images.unsplash.com/photo-1627123424574-724758594e93?w=500",
-    },
-    {
-      id: 9,
-      name: "Lamborghini Aventador",
-      price: 500,
-      category: "Cars",
-      rating: 4.9,
-      image:
-        "https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?w=500",
-    },
-    {
-      id: 10,
-      name: "BMW M4 Coupe",
-      price: 280,
-      category: "Cars",
-      rating: 4.6,
-      image:
-        "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=500",
-    },
-    {
-      id: 11,
-      name: "Crystal Pearl Bracelet",
-      price: 75,
-      category: "Accessories",
-      rating: 4.4,
-      image:
-        "https://images.unsplash.com/photo-1611591475271-1d521d8b9288?w=500",
-    },
-    {
-      id: 12,
-      name: "Aston Martin Vantage",
-      price: 420,
-      category: "Cars",
-      rating: 4.9,
-      image:
-        "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=500",
-    },
-    {
-      id: 13,
-      name: "Elegant Diamond Earrings",
-      price: 195,
-      category: "Accessories",
-      rating: 4.8,
-      image:
-        "https://images.unsplash.com/photo-1630019852942-f89202989a59?w=500",
-    },
-    {
-      id: 14,
-      name: "Modern Sunglasses",
-      price: 90,
-      category: "Accessories",
-      rating: 4.3,
-      image:
-        "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500",
-    },
-  ]);
+  const [products, setProducts] = useState([]);
 
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -145,7 +11,7 @@ export default function ProductList() {
   const [loading, setLoading] = useState(false);
 
   const [page, setPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(4);
+  const [itemsPerPage] = useState(4);
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -157,13 +23,14 @@ export default function ProductList() {
 
       const productsData = Array.isArray(response.data)
         ? response.data
-        : response.data.products || response.data.data || [];
+        : response.data.products ||
+          response.data.data ||
+          [];
 
-      if (productsData.length > 0) {
-        setProducts(productsData);
-      }
+      setProducts(productsData);
     } catch (error) {
       console.error("Error fetching products:", error);
+      setProducts([]);
     } finally {
       setLoading(false);
     }
@@ -175,16 +42,24 @@ export default function ProductList() {
 
   // Filtering
   const filteredProducts = products.filter((product) => {
-    const matchesSearch = product.name
+    const productName = product.name || "";
+    const productCategory = product.category || "";
+
+    const matchesSearch = productName
       .toLowerCase()
       .includes(search.toLowerCase());
 
     const matchesCategory =
       selectedCategory === "all" ||
-      product.category === selectedCategory;
+      productCategory === selectedCategory;
 
     return matchesSearch && matchesCategory;
   });
+
+  // Pagination
+  const numOfPage = Math.ceil(
+    filteredProducts.length / itemsPerPage
+  );
 
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -193,6 +68,11 @@ export default function ProductList() {
     startIndex,
     endIndex
   );
+
+  // Reset page when searching/filtering
+  useEffect(() => {
+    setPage(1);
+  }, [search, selectedCategory]);
 
   return (
     <div className="p-6 max-w-7xl mx-auto min-h-screen bg-[#F7F5F0] dark:bg-[#111827] transition-colors duration-300">
@@ -204,45 +84,42 @@ export default function ProductList() {
         </h1>
       </div>
 
-      {/* Search & Filter Bar */}
+      {/* Search & Filter */}
       <div className="mb-6 flex flex-col md:flex-row gap-4">
 
-        {/* Search Icon */}
-        <span className="absolute flex items-center py-3 px-2">
-          <FontAwesomeIcon
-            icon={faSearch}
-            className="text-[#7B8190] dark:text-gray-400"
+        {/* Search */}
+        <div className="relative w-full md:w-1/3">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#7B8190]">
+            🔍
+          </span>
+
+          <input
+            type="text"
+            value={search}
+            placeholder="Search..."
+            onChange={(e) => setSearch(e.target.value)}
+            className="
+              w-full
+              py-2
+              pl-10
+              pr-3
+              rounded-[10px]
+              outline-none
+              transition
+              bg-white
+              dark:bg-[#1F2937]
+              text-[#1F2937]
+              dark:text-white
+              placeholder:text-[#7B8190]
+              border
+              border-[#E5E7EB]
+              dark:border-gray-700
+              focus:border-[#E89A5B]
+            "
           />
-        </span>
+        </div>
 
-        {/* Search Input */}
-        <input
-          type="text"
-          value={search}
-          placeholder="Search..."
-          onChange={(e) => setSearch(e.target.value)}
-          className="
-            w-full md:w-1/3
-            py-2
-            pl-[33px]
-            pr-3
-            rounded-[10px]
-            outline-none
-            transition
-            bg-white
-            dark:bg-[#1F2937]
-            text-[#1F2937]
-            dark:text-white
-            placeholder:text-[#7B8190]
-            dark:placeholder:text-gray-500
-            border
-            border-[#E5E7EB]
-            dark:border-gray-700
-            focus:border-[#E89A5B]
-          "
-        />
-
-        {/* Category Filter */}
+        {/* Filter */}
         <div className="relative inline-block">
 
           <button
@@ -272,7 +149,7 @@ export default function ProductList() {
             </span>
 
             {selectedCategory === "all" && (
-              <FontAwesomeIcon icon={faFilter} />
+              <span>⚙️</span>
             )}
           </button>
 
@@ -280,12 +157,12 @@ export default function ProductList() {
             <div
               className="
                 absolute
-                right-0
+                left-0
                 mt-2
                 w-40
                 rounded-xl
                 overflow-hidden
-                z-10
+                z-50
                 shadow-lg
                 bg-white
                 dark:bg-[#1F2937]
@@ -294,38 +171,42 @@ export default function ProductList() {
                 dark:border-gray-700
               "
             >
-              {["all", "Watches", "Accessories", "Cars"].map(
-                (cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => {
-                      setSelectedCategory(cat);
-                      setIsOpen(false);
-                    }}
-                    className="
-                      w-full
-                      text-left
-                      px-4
-                      py-2
-                      text-sm
-                      transition
-                      cursor-pointer
-                      hover:bg-gray-100
-                      dark:hover:bg-gray-700
-                    "
+              {[
+                "all",
+                "Watches",
+                "Accessories",
+                "Cars",
+              ].map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => {
+                    setSelectedCategory(cat);
+                    setIsOpen(false);
+                    setPage(1);
+                  }}
+                  className="
+                    w-full
+                    text-left
+                    px-4
+                    py-2
+                    text-sm
+                    transition
+                    cursor-pointer
+                    hover:bg-gray-100
+                    dark:hover:bg-gray-700
+                  "
+                >
+                  <span
+                    className={
+                      selectedCategory === cat
+                        ? "text-[#E89A5B] font-bold"
+                        : "text-[#1F2937] dark:text-gray-200"
+                    }
                   >
-                    <span
-                      className={
-                        selectedCategory === cat
-                          ? "text-[#E89A5B] font-bold"
-                          : "text-[#1F2937] dark:text-gray-200"
-                      }
-                    >
-                      {cat}
-                    </span>
-                  </button>
-                )
-              )}
+                    {cat}
+                  </span>
+                </button>
+              ))}
             </div>
           )}
         </div>
@@ -337,121 +218,17 @@ export default function ProductList() {
           Loading...
         </div>
       ) : currentProducts.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
 
           {currentProducts.map((product) => (
-            <div
+            <ProductCard
               key={product.id}
-              className="
-                bg-white
-                dark:bg-[#1F2937]
-                p-4
-                flex
-                flex-col
-                justify-between
-                shadow-sm
-                transition
-                hover:shadow-md
-                rounded-2xl
-                border
-                border-[#E5E7EB]
-                dark:border-gray-700
-              "
-            >
-
-              {/* Product Image */}
-              <div
-                className="
-                  w-full
-                  h-48
-                  mb-4
-                  overflow-hidden
-                  rounded-xl
-                  flex
-                  items-center
-                  justify-center
-                  bg-gray-50
-                  dark:bg-[#374151]
-                  border
-                  border-[#E5E7EB]
-                  dark:border-gray-600
-                "
-              >
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="object-cover w-full h-full"
-                  onError={(e) => {
-                    e.target.src = placeholderImg;
-                  }}
-                />
-              </div>
-
-              {/* Product Details */}
-              <div>
-                <span
-                  className="
-                    text-xs
-                    px-2
-                    py-1
-                    rounded-md
-                    font-medium
-                    bg-gray-100
-                    dark:bg-gray-700
-                    text-[#7B8190]
-                    dark:text-gray-300
-                  "
-                >
-                  {product.category}
-                </span>
-
-                <h3
-                  className="
-                    font-semibold
-                    text-lg
-                    mt-2
-                    mb-1
-                    text-[#1F2937]
-                    dark:text-white
-                    font-['Poppins']
-                  "
-                >
-                  {product.name}
-                </h3>
-              </div>
-
-              {/* Price & Rating */}
-              <div
-                className="
-                  mt-4
-                  flex
-                  items-center
-                  justify-between
-                  pt-3
-                  border-t
-                  border-[#E5E7EB]
-                  dark:border-gray-700
-                "
-              >
-                <span className="font-bold text-lg text-[#E89A5B]">
-                  ${product.price}
-                </span>
-
-                <div className="flex items-center gap-1">
-                  <span className="text-amber-500 text-sm">
-                    ⭐
-                  </span>
-
-                  <span className="text-xs font-semibold text-[#7B8190] dark:text-gray-400">
-                    {product.rating || "4.5"}
-                  </span>
-                </div>
-              </div>
-            </div>
+              product={product}
+            />
           ))}
+
         </div>
       ) : (
-        /* No Results */
         <div
           className="
             text-center
@@ -503,12 +280,18 @@ export default function ProductList() {
 
         {/* Page */}
         <span className="font-medium text-[#7B8190] dark:text-gray-400">
-          Page: {page}
+          Page: {page} of {numOfPage || 1}
         </span>
 
         {/* Next */}
         <button
-          onClick={() => setPage((prev) => prev + 1)}
+          onClick={() =>
+            setPage((prev) => prev + 1)
+          }
+          disabled={
+            numOfPage === 0 ||
+            page >= numOfPage
+          }
           className="
             px-4
             py-2
@@ -519,10 +302,13 @@ export default function ProductList() {
             bg-[#17233C]
             hover:bg-[#E89A5B]
             rounded-[10px]
+            disabled:opacity-50
+            disabled:cursor-not-allowed
           "
         >
           Next
         </button>
+
       </div>
     </div>
   );
