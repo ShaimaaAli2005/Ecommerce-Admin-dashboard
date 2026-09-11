@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  /* LUMA team identity */
   --primary: #17233C;
   --secondary: #60708F;
   --accent: #E89A5B;
@@ -13,6 +14,8 @@
   --border: #E5E7EB;
 }
 
+
+
 /* ضبط استجابة الخط للحجم الأصغر بشكل مستقل خارج :root */
 @media (max-width: 1024px) {
   html {
@@ -20,6 +23,109 @@
   }
 }
 
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --text: #9ca3af;
+    --text-h: #f3f4f6;
+    --bg: #16171d;
+    --border: #2e303a;
+    --code-bg: #1f2028;
+    --accent: #c084fc;
+    --accent-bg: rgba(192, 132, 252, 0.15);
+    --accent-border: rgba(192, 132, 252, 0.5);
+    --social-bg: rgba(47, 48, 58, 0.5);
+    --shadow: rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+/* h1, h2 {
+  font-weight: 500;
+} */
+
+/* h1 {
+  font-size: 56px;
+  letter-spacing: -1.68px;
+  margin: 32px 0;
+  @media (max-width: 1024px) {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+}
+
+h2 {
+  font-size: 24px;
+  line-height: 118%;
+  letter-spacing: -0.24px;
+  margin: 0 0 8px;
+  @media (max-width: 1024px) {
+    font-size: 20px;
+  }
+} */
+button {
+  cursor: pointer;
+}
+
+::selection {
+  background: rgba(232, 154, 91, 0.22);
+  color: var(--primary);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+
+.filter-icon{
+  color: #7B8190;
+ padding-left: 60%;
+/* ضبط استجابة الخط للحجم الأصغر بشكل مستقل خارج :root */
+@media (max-width: 1024px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+
+::-webkit-scrollbar-thumb {
+  background: rgba(96, 112, 143, 0.45);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
+}
+
+/* Filter icon */
 .filter-icon {
   color: var(--muted);
   padding-left: 60%;
@@ -28,14 +134,78 @@
   display: flex;
 }
 
+.detailes-t{
+  font-family:'Poppins';
+
+
+}
 /* 1. تصميم الكارت والخط العلوي المتدرج الثابت */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+::selection {
+  background: rgba(232, 154, 91, 0.22);
+  color: var(--primary);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(96, 112, 143, 0.45);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
+}
+
+/* Existing dashboard card effects, using only the LUMA palette. */
+
+/* Dashboard cards */
 .dash-card {
   position: relative;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* الخط العلوي الثابت مع التدرج المميز لبراند LUMA */
+
+/* LUMA top gradient */
 .dash-card::before {
   content: "";
   position: absolute;
@@ -43,16 +213,24 @@
   left: 0;
   width: 100%;
   height: 4px;
-  background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--primary) 0%,
+    var(--accent) 100%
+  );
   transition: transform 0.3s ease;
 }
 
 /* 2. أنيميشن ظهور الكروت تدريجياً (Staggered Entrance) */
+}
+
+/* Card entrance animation */
 @keyframes cardEntrance {
   from {
     opacity: 0;
     transform: translateY(25px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -62,13 +240,44 @@
 .animate-card {
   opacity: 0;
   animation: cardEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
   /* تفعيل الظهور المتتابع للـ 6 كروت عبر --stagger-index */
   animation-delay: calc(var(--stagger-index, 0) * 0.12s);
 }
 
-/* 3. توقف الأنيميشن وارتفاع الكارت بسلاسة عند الـ Hover */
+.animate-card:hover {
+  animation-play-state: paused;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px -5px rgba(23, 35, 60, 0.08); 
+
+
+  box-shadow: 0 10px 20px -5px rgba(23, 35, 60, 0.08);
+}
+.block{
+  display: block;
+
+  animation-delay: calc(var(--stagger-index, 0) * 0.12s);
+}
+
 .animate-card:hover {
   animation-play-state: paused;
   transform: translateY(-5px);
   box-shadow: 0 10px 20px -5px rgba(23, 35, 60, 0.08);
+}
+
+/* Keep the fixed admin shell usable on smaller screens. */
+
+/* Responsive */
+@media (max-width: 1024px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-shell-sidebar {
+    width: 76px;
+  }
+
+}
 }
