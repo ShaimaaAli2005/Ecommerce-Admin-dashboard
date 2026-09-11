@@ -1,32 +1,51 @@
-
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "./pages/login.jsx";
 import Dashboard from "./pages/dashboard/Dashboard.jsx";
 import ProductList from "./pages/products/ProductsList.jsx";
+import Settings from "./pages/Settings.jsx";
 import AdminLayout from "./layouts/AdminLayout.jsx";
+
 import { AuthProvider } from "./context/AuthContext.jsx";
+import { ThemeProvider } from "./context/ThemeContext.jsx";
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-      
-          <Route path="/login" element={<Login />} />
+    <ThemeProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
 
-         
-          <Route element={<AdminLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/products" element={<ProductList />} />
-          </Route>
+            {/* Login */}
+            <Route path="/login" element={<Login />} />
 
-        
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+            {/* Admin Dashboard */}
+            <Route element={<AdminLayout />}>
+
+              {/* Default Route */}
+              <Route index element={<Dashboard />} />
+
+              {/* Dashboard */}
+              <Route path="/dashboard" element={<Dashboard />} />
+
+              {/* Products */}
+              <Route path="/products" element={<ProductList />} />
+
+              {/* Settings */}
+              <Route path="/settings" element={<Settings />} />
+
+            </Route>
+
+            {/* Any Unknown Route */}
+            <Route
+              path="*"
+              element={<Navigate to="/dashboard" replace />}
+            />
+
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

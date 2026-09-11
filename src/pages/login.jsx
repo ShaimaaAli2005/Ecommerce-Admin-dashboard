@@ -26,6 +26,7 @@ function Login() {
 
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
+      alert("Login Successful!")
 
       console.log("Token saved:", token);
       console.log("User saved:", user);
@@ -35,7 +36,11 @@ function Login() {
       console.error(
         "Login failed:",
         error.response?.data || error.message
+        
       );
+      
+        alert("Something went wrong pleaset try again. ");
+      
     }
   };
 
