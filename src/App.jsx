@@ -1,4 +1,6 @@
+
 import { useState } from "react";
+
 import AdminLayout from "./layouts/AdminLayout.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import React from "react";
@@ -10,6 +12,7 @@ import ProductCard from "./pages/products/ProductCard.jsx";
 import ProductDetailes from "./pages/products/ProductDetailes.jsx";
 import EditProduct from "./pages/products/EditProduct.jsx";
 import AddProduct from "./pages/products/AddProduct.jsx";
+
 
 
 function App(){
@@ -227,17 +230,19 @@ const handleDeleteProduct = (id)=>{
 }
 
 return (
+
         <AuthProvider>
                <BrowserRouter>
       <div>
         <Routes>
-          {/* صفحة تسجيل الدخول */}
+      
           <Route path="/login" element={<Login />} />
 
             {/* All admin pages share the same Navbar + Sidebar layout */}
           <Route element={<AdminLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
+
             <Route path="/products" element={<ProductList products={products} onDelete={handleDeleteProduct}/>} />
             <Route path="/products/:id" element={<ProductDetailes products={products}/>}/>
             <Route path="/products/edit/:id" element={<EditProduct products={products} setProducts={setProducts} onUpdate={handleUpdateProduct}/>}/>
@@ -251,8 +256,9 @@ return (
     </BrowserRouter>
         </AuthProvider>
 
+  );
 
-  )
+
 }
 
 export default App;
