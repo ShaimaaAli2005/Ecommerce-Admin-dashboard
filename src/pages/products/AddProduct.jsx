@@ -1,59 +1,54 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faBox, faImage, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState,useRef } from "react";
 
-export default function EditProduct({ products,onUpdate }) {
+export default function AddProduct({onAdd }) {
     const navigate = useNavigate();
-    const { id } = useParams();
-
-    const product = products?.find((p) => p?.id?.toString() === id);
     
     const [tags, setTags] = useState(["#watch", "#car", "#accessories"]);
     const [newTag, setNewTag] = useState("");
+    const [imagePreviews, setImagePreviews] = useState([]);
 
     const [formData, setFormData] = useState({
-        name: product.name,
-        brand: product.brand,
-        price: product.price || 0,
-        category: product.category,
-        short_description: product.short_description || "",
-        description: product.description || "",
-        sku: product.sku || product.category
+        name: "",
+        brand: "",
+        price: "",
+        category: "Watches", 
+        short_description: "",
+        description: "",
+        sku: "",
+        rating: 0
 })
 
-    const handleSave = (e)=>{
-      e.preventDefault();
-      if (!product) return;
+const handleSubmit = (e) => {
+    e.preventDefault();
 
-      const updatedProduct = {
-        ...product,
+    const newProduct = {
         ...formData,
-        tags:tags
-      }
-      if (onUpdate) {
-          onUpdate(updatedProduct);
-      }
-      console.log("Updated Data:", updatedProduct); 
-
-        alert("Changes saved successfully!");
-        navigate(-1);
+        id: Date.now(), 
+        price: Number(formData.price),
+        rating: Number(formData.rating) || 0,
+        image: imagePreviews.length > 0 ? imagePreviews : ["assets/images/placeholder.png"]
+    };
+    if (typeof onAdd === "function") {
+        onAdd(newProduct);
     }
+    navigate("/products");
+};
 
     const fileInputRef = useRef(null);
     const handleImageChange = (e) =>{
         const files = Array.from(e.target.files)
         if (files.length>0){
             const newImageUrls = files.map(file=> URL.createObjectURL(file))
+            setImagePreviews(newImageUrls);
         }
     }
 
-    if (!product) {
-        return (
+
             <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#F7F5F0' }}>
                 <div className="text-center bg-white p-8 rounded-3xl shadow-sm border border-gray-200">
-                    <h2 className="text-xl font-bold text-[#17233C] mb-2">Product Not Found</h2>
-                    <p className="text-gray-500 text-sm mb-4">The product you are trying to edit does not exist.</p>
                     <button 
                         onClick={() => navigate(-1)} 
                         className="bg-[#17233C] text-[#F7F5F0] px-6 py-3 rounded-2xl text-sm font-medium transition hover:bg-[#E89A5B]"
@@ -62,8 +57,7 @@ export default function EditProduct({ products,onUpdate }) {
                     </button>
                 </div>
             </div>
-        );
-    }
+   
 
     const removeTag = (indexToRemove) => {
         setTags(tags.filter((_, index) => index !== indexToRemove));
@@ -119,8 +113,8 @@ export default function EditProduct({ products,onUpdate }) {
                         <article className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
                             <div className="h-52 w-full overflow-hidden bg-slate-100">
                                 <img 
-                                   src={Array.isArray(product.image) ? product.image[0] : product.image} 
-                                   alt={product.name} 
+                                   src={imagePreviews.length > 0 ? imagePreviews[0] : "assets/images/placeholder.png"} 
+                                   alt="Product Preview"
                                    className="object-cover w-full h-full"
                                 />
                             </div>
@@ -133,7 +127,7 @@ export default function EditProduct({ products,onUpdate }) {
                          type="file"
                          ref={fileInputRef} 
                          onChange={handleImageChange}
-                         maltiple
+                         multiple
                          accept="image/*" 
                         className="hidden"/>
 
@@ -143,7 +137,7 @@ export default function EditProduct({ products,onUpdate }) {
                             <div className="text-[#17233C] text-2xl mb-2">
                                 <FontAwesomeIcon icon={faImage} />
                             </div>
-                            <h3 className="font-bold text-[#17233C] text-sm">Add more images</h3>
+                            <h3 className="font-bold text-[#17233C] text-sm">Upload image</h3>
                             <p className="text-xs text-gray-400 mt-1">PNG, JPG, WEBP • multiple files supported</p>
                         </div>
 
@@ -151,7 +145,7 @@ export default function EditProduct({ products,onUpdate }) {
                             <span className="text-emerald-500 text-sm mt-0.5">✨</span>
                             <div>
                                 <h4 className="text-xs font-bold text-emerald-800 uppercase tracking-wider">Senior UX</h4>
-                                <p className="text-xs text-emerald-700/80 mt-0.5">Edit without losing the existing product story, while still adding fresh media.</p>
+                                <p className="text-xs text-emerald-700/80 mt-0.5">Optimized product creation experience with responsive design and smooth interactions.</p>
                             </div>
                         </div>
                     </div>
@@ -300,9 +294,9 @@ export default function EditProduct({ products,onUpdate }) {
 
                             <button 
                             className="inline-flex justify-center items-center rounded-2xl border text-sm gap-2 px-3 py-2 font-semibold tracking-wide overflow-hidden border-slate-200 text-white bg-[#E89A5B] hover:bg-[#edb78b] relative cursor-pointer"
-                            type="button"
-                            onClick={handleSave}>
-                                Save Changes
+                            type="submit"
+                            onClick={handleSubmit}>
+                                Create product
                             </button>
                         </div>
 
@@ -313,3 +307,4 @@ export default function EditProduct({ products,onUpdate }) {
         </div>
     );
 }
+

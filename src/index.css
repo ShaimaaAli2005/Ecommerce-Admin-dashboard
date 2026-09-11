@@ -221,7 +221,6 @@ button {
 }
 .block{
   display: block;
-
   animation-delay: calc(var(--stagger-index, 0) * 0.12s);
 }
 
