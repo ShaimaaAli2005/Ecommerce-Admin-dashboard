@@ -12,9 +12,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 
- export default function ProductCard({product}) {
+ export default function ProductCard({product,onDelete}) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const navigate = useNavigate();
+
+
      return(
                         <div 
                             className="bg-white p-4 flex flex-col justify-between shadow-sm transition hover:shadow-md group relative"
@@ -48,23 +50,30 @@ import {
                                  
                                 </button>
                                 {/* Product Image */}
-                                <img 
-                                    src={product.image[currentImageIndex]} 
-                                    alt={product.name} 
-                                    className="object-cover w-full h-full transition-transform group-hover:scale-150 duration-300" 
-                                    onError={(e) => { e.target.src = placeholderImg; }}
+                               <img 
+                                src={product?.image && product.image.length > 0 ? product.image[currentImageIndex] || product.image[0] : placeholderImg} 
+                                alt={product?.name || "Product"} 
+                                className="object-cover w-full h-full transition-transform group-hover:scale-150 duration-300" 
+                                onError={(e) => { e.target.src = placeholderImg; }} 
                                 />
 
                             </div>
 
                             {/* Product Details */}
                             <div>
+                                 <h3 className="font-semibold text-lg mt-2 mb-1" style={{ color: '#1F2937', fontFamily: 'Poppins, sans-serif' }}>
+                                    {product.name}
+                                </h3>
                                 <span className="text-xs px-2 py-1 bg-gray-100 rounded-md font-medium" style={{ color: '#7B8190' }}>
                                     {product.category}
                                 </span>
-                                <h3 className="font-semibold text-lg mt-2 mb-1" style={{ color: '#1F2937', fontFamily: 'Poppins, sans-serif' }}>
-                                    {product.name}
-                                </h3>
+                                <div className="mt-3">
+                                   <p className="text-xs px-2 py-1 bg-gray-100 rounded-md font-medium" style={{ color: '#7B8190' }}>
+                                    {product.short_description}
+                                   </p>
+                                </div>
+                                
+                               
                             </div>
 
                             {/* Price & Rating Footer */}
@@ -118,8 +127,11 @@ import {
                                    Qick Edit
                                </button>
 
-                                 <button className="ml-auto flex items-center gap-1.5 rounded-xl border border-rose-200 
-                                 px-4 py-2 mt-3 bg-rose-50 text-xs font-semibold cursor-pointer hover:bg-red-500 hover:text-white">
+                                 <button 
+                                 className="ml-auto flex items-center gap-1.5 rounded-xl border border-rose-200 
+                                 px-4 py-2 mt-3 bg-rose-50 text-xs font-semibold cursor-pointer hover:bg-red-500 hover:text-white"
+                                 onClick={()=> onDelete(product.id)}
+                                 type="button">
                                 <FontAwesomeIcon icon={faTrashCan}></FontAwesomeIcon>
                                    Delete
                                </button>
