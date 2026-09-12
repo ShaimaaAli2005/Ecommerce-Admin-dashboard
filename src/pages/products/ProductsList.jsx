@@ -174,6 +174,7 @@ export default function ProductList() {
             "
           />
         </div>
+        
 
         {/* Filter */}
         <div className="relative inline-block">
@@ -278,7 +279,7 @@ export default function ProductList() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
           {currentProducts.map((product) => (
             <ProductCard
-              key={product.id}
+              key={product._id}
               product={product}
             />
           ))}

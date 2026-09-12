@@ -13,6 +13,7 @@ import EditProduct from "./pages/products/EditProduct.jsx";
 import Settings from "./pages/Settings.jsx";
 
 import AdminLayout from "./layouts/AdminLayout.jsx";
+import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
@@ -25,61 +26,37 @@ function App() {
           <Routes>
 
             {/* Login */}
-            <Route
-              path="/login"
-              element={<Login />}
-            />
+            <Route path="/login" element={<Login />} />
 
-            {/* Admin Dashboard */}
-            <Route element={<AdminLayout />}>
+            {/* Protected Admin Routes */}
+            <Route element={<ProtectedRoute />}>
+              <Route element={<AdminLayout />}>
 
-              {/* Default Route */}
-              <Route
-                index
-                element={<Dashboard />}
-              />
+                <Route index element={<Dashboard />} />
 
-              {/* Dashboard */}
-              <Route
-                path="/dashboard"
-                element={<Dashboard />}
-              />
+                <Route path="/dashboard" element={<Dashboard />} />
 
-              {/* Products */}
-              <Route
-                path="/products"
-                element={<ProductList />}
-              />
+                <Route path="/products" element={<ProductList />} />
 
-              {/* Product Details */}
-              <Route
-                path="/products/:id"
-                element={<ProductDetailes />}
-              />
+                <Route
+                  path="/products/:id"
+                  element={<ProductDetailes />}
+                />
 
-              {/* Edit Product */}
-              <Route
-                path="/products/edit/:id"
-                element={<EditProduct />}
-              />
+                <Route
+                  path="/products/edit/:id"
+                  element={<EditProduct />}
+                />
 
-              {/* Settings */}
-              <Route
-                path="/settings"
-                element={<Settings />}
-              />
+                <Route path="/settings" element={<Settings />} />
 
+              </Route>
             </Route>
 
-           
+            {/* Unknown routes */}
             <Route
               path="*"
-              element={
-                <Navigate
-                  to="/dashboard"
-                  replace
-                />
-              }
+              element={<Navigate to="/dashboard" replace />}
             />
 
           </Routes>
