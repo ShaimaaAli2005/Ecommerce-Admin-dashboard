@@ -38,6 +38,7 @@ const handleSubmit = (e) => {
 };
 
     const fileInputRef = useRef(null);
+    
     const handleImageChange = (e) =>{
         const files = Array.from(e.target.files)
         if (files.length>0){

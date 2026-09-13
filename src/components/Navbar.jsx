@@ -17,21 +17,8 @@ function Navbar() {
   };
 
   return (
-    <nav
-      className="
-        fixed left-60 right-0 top-0 z-40
-        flex h-24 items-center justify-between
-        border-b border-[#E5E7EB]
-        bg-white/95
-        px-8
-        backdrop-blur-sm
-        transition-colors duration-300
-
-        dark:border-gray-700
-        dark:bg-[#111827]/95
-      "
-    >
-      {/* Logo + Title */}
+    <nav className="fixed left-60 right-0 top-0 z-40 flex h-24 items-center justify-between border-b border-[#E5E7EB] bg-white/95 px-8 backdrop-blur-sm">
+      {/* Page / brand identity */}
       <div className="flex items-center gap-4">
         <div
           className="
@@ -56,20 +43,13 @@ function Navbar() {
           >
             {t("dashboard")}
           </h1>
-
-          <p
-            className="
-              mt-0.5 text-sm
-              text-[#7B8190]
-              dark:text-gray-400
-            "
-          >
-            {t("adminPanel")}
+          <p className="mt-0.5 text-sm text-[#7B8190]">
+            E-Commerce Admin Panel
           </p>
         </div>
       </div>
 
-      {/* Actions */}
+      {/* Actions / profile / logout */}
       <div className="flex items-center gap-3">
         {/* Notifications */}
         <button
@@ -93,15 +73,7 @@ function Navbar() {
         >
           <span className="relative">
             <Bell size={20} />
-
-            <span
-              className="
-                absolute -right-1 -top-1
-                h-2 w-2
-                rounded-full
-                bg-[#E89A5B]
-              "
-            />
+            <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-[#E89A5B]" />
           </span>
         </button>
 
@@ -162,16 +134,7 @@ function Navbar() {
             >
               {t("admin")}
             </p>
-
-            <p
-              className="
-                mt-0.5 text-xs
-                text-[#7B8190]
-                dark:text-gray-400
-              "
-            >
-              {t("administrator")}
-            </p>
+            <p className="mt-0.5 text-xs text-[#7B8190]">Administrator</p>
           </div>
         </div>
 
