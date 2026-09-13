@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ProductCard from "./pages/products/ProductCard.jsx";
 import ProductDetailes from "./pages/products/ProductDetailes.jsx";
 import EditProduct from "./pages/products/EditProduct.jsx";
+import UsersPage  from './pages/users/UsersPage.jsx';
 
 
 
@@ -124,6 +125,7 @@ return (
             <Route path="/products" element={<ProductList products={products}/>} />
             <Route path="/products/:id" element={<ProductDetailes products={products}/>}/>
             <Route path="/products/edit/:id" element={<EditProduct products={products} setProducts={setProducts}/>}/>
+             <Route path="/users" element={<UsersPage />} />
 
           </Route>
 

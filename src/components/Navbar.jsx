@@ -12,6 +12,7 @@ function Navbar() {
   };
 
   return (
+    
     <nav className="fixed left-60 right-0 top-0 z-40 flex h-24 items-center justify-between border-b border-[#E5E7EB] bg-white/95 px-8 backdrop-blur-sm">
       {/* Page / brand identity */}
       
@@ -36,8 +37,6 @@ function Navbar() {
       <div className="flex items-center gap-3">
     
       <div className="flex items-center gap-3">
-
-     
         <button
           type="button"
           aria-label="Notifications"
@@ -91,11 +90,8 @@ function Navbar() {
           <LogOut size={17} />
           Logout
         </button>
-
-      </div>
     </nav>
   );
 }
-
 export default Navbar;
 
