@@ -17,6 +17,7 @@ function Navbar() {
   };
 
   return (
+    
     <nav className="fixed left-60 right-0 top-0 z-40 flex h-24 items-center justify-between border-b border-[#E5E7EB] bg-white/95 px-8 backdrop-blur-sm">
       {/* Page / brand identity */}
       <div className="flex items-center gap-4">
@@ -51,7 +52,12 @@ function Navbar() {
 
       {/* Actions / profile / logout */}
       <div className="flex items-center gap-3">
+<<<<<<< HEAD
+    
+      <div className="flex items-center gap-3">
+=======
         {/* Notifications */}
+>>>>>>> 24247de387af8aabe98fa4152b84a17816302a07
         <button
           type="button"
           aria-label={t("notifications")}
@@ -160,9 +166,17 @@ function Navbar() {
           <LogOut size={17} />
           {t("logout")}
         </button>
+<<<<<<< HEAD
+    </nav>
+  );
+}
+export default Navbar;
+
+=======
       </div>
     </nav>
   );
 }
 
 export default Navbar;
+>>>>>>> 24247de387af8aabe98fa4152b84a17816302a07
