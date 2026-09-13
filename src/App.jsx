@@ -25,10 +25,10 @@ function App() {
         <BrowserRouter>
           <Routes>
 
-            {/* Login */}
+        
             <Route path="/login" element={<Login />} />
 
-            {/* Protected Admin Routes */}
+         
             <Route element={<ProtectedRoute />}>
               <Route element={<AdminLayout />}>
 
@@ -53,7 +53,7 @@ function App() {
               </Route>
             </Route>
 
-            {/* Unknown routes */}
+        
             <Route
               path="*"
               element={<Navigate to="/dashboard" replace />}
