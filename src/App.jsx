@@ -10,6 +10,7 @@ import Dashboard from "./pages/dashboard/Dashboard.jsx";
 import ProductList from "./pages/products/ProductsList.jsx";
 import ProductDetailes from "./pages/products/ProductDetailes.jsx";
 import EditProduct from "./pages/products/EditProduct.jsx";
+import AddProduct from "./pages/products/AddProduct.jsx";
 import Settings from "./pages/Settings.jsx";
 
 import AdminLayout from "./layouts/AdminLayout.jsx";
@@ -25,18 +26,24 @@ function App() {
         <BrowserRouter>
           <Routes>
 
-        
+            {/* Login */}
             <Route path="/login" element={<Login />} />
 
-         
+            {/* Protected Admin Pages */}
             <Route element={<ProtectedRoute />}>
               <Route element={<AdminLayout />}>
 
                 <Route index element={<Dashboard />} />
 
-                <Route path="/dashboard" element={<Dashboard />} />
+                <Route
+                  path="/dashboard"
+                  element={<Dashboard />}
+                />
 
-                <Route path="/products" element={<ProductList />} />
+                <Route
+                  path="/products"
+                  element={<ProductList />}
+                />
 
                 <Route
                   path="/products/:id"
@@ -48,12 +55,20 @@ function App() {
                   element={<EditProduct />}
                 />
 
-                <Route path="/settings" element={<Settings />} />
+                <Route
+                  path="/products/add"
+                  element={<AddProduct />}
+                />
+
+                <Route
+                  path="/settings"
+                  element={<Settings />}
+                />
 
               </Route>
             </Route>
 
-        
+            {/* Unknown routes */}
             <Route
               path="*"
               element={<Navigate to="/dashboard" replace />}
