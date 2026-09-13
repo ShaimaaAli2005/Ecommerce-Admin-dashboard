@@ -1,0 +1,26 @@
+{
+  "title": "Settings",
+  "description": "Manage your preferences and account settings.",
+
+  "preferences": "Preferences",
+  "preferencesDescription": "Customize your dashboard experience.",
+
+  "darkMode": "Dark Mode",
+  "darkModeDescription": "Switch between light and dark appearance.",
+
+  "language": "Language",
+  "languageDescription": "Choose your preferred language.",
+
+  "notifications": "Notifications",
+  "notificationsDescription": "Receive dashboard notifications.",
+
+  "account": "Account",
+  "accountDescription": "View your account information.",
+
+  "name": "Name",
+  "email": "Email",
+  "password": "Password",
+
+  "english": "English",
+  "arabic": "Arabic"
+}
