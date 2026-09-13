@@ -12,11 +12,10 @@ import {
   faCircleChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, onDelete }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const navigate = useNavigate();
 
-<<<<<<< HEAD
   const images =
     Array.isArray(product.image) && product.image.length > 0
       ? product.image
@@ -44,7 +43,7 @@ export default function ProductCard({ product }) {
         rounded-2xl
       "
     >
-      {/* ================= IMAGE ================= */}
+      {/* IMAGE */}
       <div
         className="
           relative
@@ -71,52 +70,6 @@ export default function ProductCard({ product }) {
             type="button"
             onClick={(e) => {
               e.stopPropagation();
-=======
- export default function ProductCard({product,onDelete}) {
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const navigate = useNavigate();
-
-
-     return(
-                        <div 
-                            className="bg-white p-4 flex flex-col justify-between shadow-sm transition hover:shadow-md group relative"
-                            style={{ borderRadius: '16px', border: '1px solid #E5E7EB' }}
-                        >
-                            {/* Product Image Container */}
-                            <div className="w-full h-48 mb-4 overflow-hidden rounded-xl bg-red-50 flex items-center justify-center border border-[#E5E7EB] relative">
-
-                                {/* Previous Button */}
-                                <button 
-                                  
-                                  onClick={(e) => {
-                                    e.stopPropagation()
-                                    setCurrentImageIndex((prev) => (prev===0? product.image.length -1: prev-1))
-                                  }}
-                                  className="absolute left-2 top-1/2 text-white -translate-y-1/2  text-lg bg-black/40 hover:bg-black/60 w-10 h-10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 cursor-pointer"
-                                >
-                                 <FontAwesomeIcon icon={faCircleChevronLeft} />
-                                </button>
-                               
-                             {/* Next Button */}
-                                <button
-                                  onClick={(e) => {
-                                    e.stopPropagation()
-                                    setCurrentImageIndex((prev)=>(prev===(product.image.length -1)?0 : prev + 1 ))
-                                  }}
-                                  className="absolute right-2 top-1/2 text-white -translate-y-1/2  text-lg bg-black/40 hover:bg-black/60 w-10 h-10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 cursor-pointer"
-                                 
-                                >
-                                 <FontAwesomeIcon icon={faCircleChevronRight} />
-                                 
-                                </button>
-                                {/* Product Image */}
-                               <img 
-                                src={product?.image && product.image.length > 0 ? product.image[currentImageIndex] || product.image[0] : placeholderImg} 
-                                alt={product?.name || "Product"} 
-                                className="object-cover w-full h-full transition-transform group-hover:scale-150 duration-300" 
-                                onError={(e) => { e.target.src = placeholderImg; }} 
-                                />
->>>>>>> origin/develop
 
               setCurrentImageIndex((prev) =>
                 prev === 0 ? images.length - 1 : prev - 1
@@ -148,31 +101,12 @@ export default function ProductCard({ product }) {
           </button>
         )}
 
-<<<<<<< HEAD
         {/* Next */}
         {images.length > 1 && (
           <button
             type="button"
             onClick={(e) => {
               e.stopPropagation();
-=======
-                            {/* Product Details */}
-                            <div>
-                                 <h3 className="font-semibold text-lg mt-2 mb-1" style={{ color: '#1F2937', fontFamily: 'Poppins, sans-serif' }}>
-                                    {product.name}
-                                </h3>
-                                <span className="text-xs px-2 py-1 bg-gray-100 rounded-md font-medium" style={{ color: '#7B8190' }}>
-                                    {product.category}
-                                </span>
-                                <div className="mt-3">
-                                   <p className="text-xs px-2 py-1 bg-gray-100 rounded-md font-medium" style={{ color: '#7B8190' }}>
-                                    {product.short_description}
-                                   </p>
-                                </div>
-                                
-                               
-                            </div>
->>>>>>> origin/develop
 
               setCurrentImageIndex((prev) =>
                 prev === images.length - 1 ? 0 : prev + 1
@@ -242,7 +176,7 @@ export default function ProductCard({ product }) {
         )}
       </div>
 
-      {/* ================= PRODUCT INFO ================= */}
+      {/* PRODUCT INFO */}
       <div className="flex-1">
         {/* Category */}
         <span
@@ -279,8 +213,7 @@ export default function ProductCard({ product }) {
         </h3>
       </div>
 
-<<<<<<< HEAD
-      {/* ================= PRICE & RATING ================= */}
+      {/* PRICE & RATING */}
       <div className="mt-4 flex flex-col gap-3">
         <div className="flex items-center justify-between gap-3">
           {/* Price */}
@@ -345,7 +278,7 @@ export default function ProductCard({ product }) {
         </div>
       </div>
 
-      {/* ================= ACTIONS ================= */}
+      {/* ACTIONS */}
       <div
         className="
           border-t
@@ -450,6 +383,7 @@ export default function ProductCard({ product }) {
         {/* Delete */}
         <button
           type="button"
+          onClick={() => onDelete?.(product._id || product.id)}
           className="
             ml-auto
             flex
@@ -482,17 +416,3 @@ export default function ProductCard({ product }) {
     </div>
   );
 }
-=======
-                                 <button 
-                                 className="ml-auto flex items-center gap-1.5 rounded-xl border border-rose-200 
-                                 px-4 py-2 mt-3 bg-rose-50 text-xs font-semibold cursor-pointer hover:bg-red-500 hover:text-white"
-                                 onClick={()=> onDelete(product.id)}
-                                 type="button">
-                                <FontAwesomeIcon icon={faTrashCan}></FontAwesomeIcon>
-                                   Delete
-                               </button>
-                            </div>
-                     </div>
-     )
- }
->>>>>>> origin/develop

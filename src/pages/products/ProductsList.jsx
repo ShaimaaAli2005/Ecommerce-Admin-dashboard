@@ -1,39 +1,21 @@
 import { useState, useEffect } from "react";
 import axiosInstance from "../../api/axiosInstance";
-<<<<<<< HEAD
-=======
-
-import placeholderImg from '../../assets/images/placeholder.png';
-
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faSearch, faFilter, faBox, faPlus} from '@fortawesome/free-solid-svg-icons'
-
->>>>>>> origin/develop
 import ProductCard from "./ProductCard";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-<<<<<<< HEAD
 export default function ProductList() {
   const [products, setProducts] = useState([]);
-=======
-export default function ProductList({products,onDelete,onAdd}) {
->>>>>>> origin/develop
 
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
 
-<<<<<<< HEAD
   const [loading, setLoading] = useState(false);
 
   const [page, setPage] = useState(1);
   const itemsPerPage = 4;
-=======
-    const navigate = useNavigate()
-    const handleAddClick = () => {
-    navigate('/products/add');
-};
->>>>>>> origin/develop
+
+  const navigate = useNavigate();
 
   // Fetch products
   useEffect(() => {
@@ -41,60 +23,11 @@ export default function ProductList({products,onDelete,onAdd}) {
       setLoading(true);
 
       try {
-        // Get products without client-side page/search parameters.
         const response = await axiosInstance.get("/products");
 
         console.log("Products API response:", response.data);
 
-<<<<<<< HEAD
         let productsData = [];
-=======
-    return (
-        <div className="p-6 max-w-7xl mx-auto min-h-screen" style={{ backgroundColor: '#F7F5F0' }}>
-            {/* Title page */}
-           <div className="bg-[#17233C] shadow-sm rounded-3xl p-8 mb-8 max-w-7xl mx-auto mt-6">  
-                        <div className="flex flex-col gap-6 relative lg:flex-row lg:items-center lg:justify-between z-10">
-                            <div className="flex items-center gap-5">
-                               <div className="bg-gray-200 rounded-2xl">
-                                  <FontAwesomeIcon icon={faBox} className="text-2xl text-[#17233C] p-3"/>
-                              </div>
-                              
-                              <div>
-                                  <p className="text-xs mt-0.5 text-[#E89A5B] uppercase tracking-[0.35em]">Product Dashboard</p>    
-                                  <h1 className="text-3xl font-bold text-[#F7F5F0]">Products</h1>
-                              </div>
-                            </div>
-                              
-
-                            <button 
-                            className="flex cursor-pointer items-center gap-2.5 border rounded-2xl p-3 text-sm font-bold tracking-wide text-white shadow-md shadow-orange-200 bg-[#E89A5B] hover:bg-[#d48849] hover:shadow-orange-300 transition-all"
-                            onClick={handleAddClick}>
-                            <FontAwesomeIcon icon={faPlus}/> Add Product
-                            </button>
-                        </div>
-            </div>
-    
-            {/* Search & Filter Bar */}
-            <div className="mb-6 flex flex-col md:flex-row gap-4">
-                <span className="absolute  flex items-center py-3 px-2 ">
-                        <FontAwesomeIcon icon={faSearch} style={{ color: '#7B8190' }} />
-                    </span>
-                {/* Search Input */}
-                <input 
-                    type="text"
-                    value={search}
-                    placeholder="Search..."
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="w-full md:w-1/3  py-2 bg-white outline-none transition"
-                    style={{
-                        borderRadius: '10px',
-                        border: '1px solid #E5E7EB',
-                        color: '#1F2937',
-                        fontFamily: 'Inter, sans-serif',
-                        paddingLeft:'33px'
-                    }}
-                />
->>>>>>> origin/develop
 
         if (Array.isArray(response.data)) {
           productsData = response.data;
@@ -116,7 +49,6 @@ export default function ProductList({products,onDelete,onAdd}) {
 
         console.log("Products:", normalizedProducts);
 
-<<<<<<< HEAD
         setProducts(normalizedProducts);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -125,22 +57,6 @@ export default function ProductList({products,onDelete,onAdd}) {
         setLoading(false);
       }
     };
-=======
-           {/* Cards Grid */}
-            {loading ? (
-                <div className="text-center py-12" style={{ color: '#7B8190' }}>Loading...</div>
-            ) : currentProducts.length > 0 ? (
-                <div className="grid grid-cols-1 lg:grid-cols-2  gap-6">
-                    {currentProducts.map((product) => (
-                        <ProductCard key={product.id} product={product} onDelete={onDelete} onAdd={onAdd}/>
-                    ))}
-                </div>
-            ) : (
-                <div className="text-center py-12 bg-white rounded-2xl border border-[#E5E7EB]" style={{ color: '#7B8190' }}>
-                    No results for this search
-                </div>
-            )}
->>>>>>> origin/develop
 
     fetchProducts();
   }, []);
@@ -201,22 +117,43 @@ export default function ProductList({products,onDelete,onAdd}) {
       "
     >
       {/* Title */}
-      <div className="mb-6">
-        <h1
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <h1
+            className="
+              text-2xl
+              font-bold
+              text-[#17233C]
+              dark:text-white
+              font-['Poppins']
+            "
+          >
+            Products
+          </h1>
+
+          <p className="mt-1 text-sm text-[#7B8190] dark:text-gray-400">
+            Manage your products
+          </p>
+        </div>
+
+        {/* Add Product */}
+        <button
+          type="button"
+          onClick={() => navigate("/products/add")}
           className="
-            text-2xl
-            font-bold
-            text-[#17233C]
-            dark:text-white
-            font-['Poppins']
+            px-4
+            py-2
+            rounded-[10px]
+            bg-[#E89A5B]
+            text-white
+            font-medium
+            transition
+            cursor-pointer
+            hover:bg-[#d48849]
           "
         >
-          Products
-        </h1>
-
-        <p className="mt-1 text-sm text-[#7B8190] dark:text-gray-400">
-          Manage your products
-        </p>
+          Add Product
+        </button>
       </div>
 
       {/* Search & Filter */}
@@ -260,7 +197,6 @@ export default function ProductList({products,onDelete,onAdd}) {
             "
           />
         </div>
-        
 
         {/* Filter */}
         <div className="relative inline-block">
@@ -365,7 +301,7 @@ export default function ProductList({products,onDelete,onAdd}) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
           {currentProducts.map((product) => (
             <ProductCard
-              key={product._id}
+              key={product._id || product.id}
               product={product}
             />
           ))}
@@ -385,14 +321,13 @@ export default function ProductList({products,onDelete,onAdd}) {
             dark:text-gray-400
           "
         >
-          {loading ? "Loading..." : "No products found"}
+          No products found
         </div>
       )}
 
       {/* Pagination */}
       {filteredProducts.length > 0 && (
         <div className="flex justify-between items-center mt-8">
-          {/* Previous */}
           <button
             type="button"
             onClick={() =>
@@ -421,12 +356,10 @@ export default function ProductList({products,onDelete,onAdd}) {
             Previous
           </button>
 
-          {/* Page */}
           <span className="font-medium text-[#7B8190] dark:text-gray-400">
             Page {page} of {numOfPage || 1}
           </span>
 
-          {/* Next */}
           <button
             type="button"
             onClick={() =>

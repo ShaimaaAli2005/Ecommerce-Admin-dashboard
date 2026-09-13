@@ -1,0 +1,9 @@
+{
+  "dashboard": "Dashboard",
+  "users": "Users",
+  "products": "Products",
+  "addProduct": "Add Product",
+  "orders": "Orders",
+  "carts": "Carts",
+  "settings": "Settings"
+}

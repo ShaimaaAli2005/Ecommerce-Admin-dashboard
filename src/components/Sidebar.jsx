@@ -8,17 +8,20 @@ import {
   Settings,
 } from "lucide-react";
 
+import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 
 function Sidebar() {
+  const { t } = useTranslation("sidebar");
+
   const links = [
-    { name: "Dashboard", icon: LayoutDashboard, to: "/dashboard" },
-    { name: "Users", icon: Users, to: "/users" },
-    { name: "Products", icon: Package, to: "/products" },
-    { name: "Add Product", icon: Plus, to: "/products/add" },
-    { name: "Orders", icon: ClipboardList, to: "/orders" },
-    { name: "Carts", icon: ShoppingCart, to: "/carts" },
-    { name: "Settings", icon: Settings, to: "/settings" },
+    { key: "dashboard", icon: LayoutDashboard, to: "/dashboard" },
+    { key: "users", icon: Users, to: "/users" },
+    { key: "products", icon: Package, to: "/products" },
+    { key: "addProduct", icon: Plus, to: "/products/add" },
+    { key: "orders", icon: ClipboardList, to: "/orders" },
+    { key: "carts", icon: ShoppingCart, to: "/carts" },
+    { key: "settings", icon: Settings, to: "/settings" },
   ];
 
   return (
@@ -70,7 +73,7 @@ function Sidebar() {
 
           return (
             <NavLink
-              key={link.name}
+              key={link.key}
               to={link.to}
               className={({ isActive }) =>
                 `group flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition-all duration-200 ${
@@ -93,7 +96,7 @@ function Sidebar() {
                   />
 
                   <span className="text-sm font-medium">
-                    {link.name}
+                    {t(link.key)}
                   </span>
                 </>
               )}

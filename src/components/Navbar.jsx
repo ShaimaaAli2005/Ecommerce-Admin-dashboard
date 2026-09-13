@@ -2,11 +2,14 @@ import { Bell, Moon, Sun, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useTheme } from "../context/ThemeContext.jsx";
+import { useTranslation } from "react-i18next";
 
 function Navbar() {
   const navigate = useNavigate();
   const { logoutUser } = useAuth();
   const { darkMode, toggleDarkMode } = useTheme();
+
+  const { t } = useTranslation("navbar");
 
   const handleLogout = async () => {
     await logoutUser();
@@ -51,7 +54,7 @@ function Navbar() {
               dark:text-white
             "
           >
-            LUMA Dashboard
+            {t("dashboard")}
           </h1>
 
           <p
@@ -61,7 +64,7 @@ function Navbar() {
               dark:text-gray-400
             "
           >
-            E-Commerce Admin Panel
+            {t("adminPanel")}
           </p>
         </div>
       </div>
@@ -71,7 +74,7 @@ function Navbar() {
         {/* Notifications */}
         <button
           type="button"
-          aria-label="Notifications"
+          aria-label={t("notifications")}
           className="
             flex h-10 w-10 items-center justify-center
             rounded-full
@@ -157,7 +160,7 @@ function Navbar() {
                 dark:text-white
               "
             >
-              ADMIN
+              {t("admin")}
             </p>
 
             <p
@@ -167,7 +170,7 @@ function Navbar() {
                 dark:text-gray-400
               "
             >
-              Administrator
+              {t("administrator")}
             </p>
           </div>
         </div>
@@ -192,7 +195,7 @@ function Navbar() {
           "
         >
           <LogOut size={17} />
-          Logout
+          {t("logout")}
         </button>
       </div>
     </nav>
