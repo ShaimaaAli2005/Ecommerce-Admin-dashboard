@@ -17,7 +17,7 @@ export default function ProductList({products,onDelete,onAdd}) {
     const [loading, setLoading] = useState(false);
     
     const [page, setPage] = useState(1);
-    const [itemsPerPage,setItemsPerPage] = useState(4);
+    const [itemsPerPage,setItemsPerPage] = useState(6);
 
     const navigate = useNavigate()
     const handleAddClick = () => {
@@ -130,7 +130,7 @@ export default function ProductList({products,onDelete,onAdd}) {
             {loading ? (
                 <div className="text-center py-12" style={{ color: '#7B8190' }}>Loading...</div>
             ) : currentProducts.length > 0 ? (
-                <div className="grid grid-cols-1 lg:grid-cols-2  gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {currentProducts.map((product) => (
                         <ProductCard key={product.id} product={product} onDelete={onDelete} onAdd={onAdd}/>
                     ))}

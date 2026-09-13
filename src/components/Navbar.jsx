@@ -14,8 +14,6 @@ function Navbar() {
   return (
     <nav className="fixed left-60 right-0 top-0 z-40 flex h-24 items-center justify-between border-b border-[#E5E7EB] bg-white/95 px-8 backdrop-blur-sm">
       {/* Page / brand identity */}
-      
-   
       <div className="flex items-center gap-4">
         <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#17233C] text-xl font-bold text-[#E89A5B] shadow-sm">
           L
@@ -25,19 +23,15 @@ function Navbar() {
           <h1 className="text-xl font-bold leading-tight text-[#17233C]">
             LUMA Dashboard
           </h1>
-
           <p className="mt-0.5 text-sm text-[#7B8190]">
             E-Commerce Admin Panel
           </p>
         </div>
       </div>
 
-      {/* Actions / profile */}
+      {/* Actions / profile / logout */}
       <div className="flex items-center gap-3">
-    
-      <div className="flex items-center gap-3">
-
-     
+        {/* Notifications */}
         <button
           type="button"
           aria-label="Notifications"
@@ -45,7 +39,6 @@ function Navbar() {
         >
           <span className="relative">
             <Bell size={20} />
-
             <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-[#E89A5B]" />
           </span>
         </button>
@@ -75,13 +68,6 @@ function Navbar() {
           </div>
         </div>
 
-
-            <p className="mt-0.5 text-xs text-[#7B8190]">
-              Administrator
-            </p>
-          </div>
-        </div>
-
         {/* Logout */}
         <button
           type="button"
@@ -91,11 +77,9 @@ function Navbar() {
           <LogOut size={17} />
           Logout
         </button>
-
       </div>
     </nav>
   );
 }
 
 export default Navbar;
-
