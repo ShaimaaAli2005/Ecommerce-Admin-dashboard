@@ -1,41 +1,35 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const { loginUser } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "https://e-commerce-api-3wara.vercel.app/auth/login",
-        {
-          email,
-          password,
-        }
-      );
+      const data = await loginUser({
+        email,
+        password,
+      });
 
-      console.log("Login response:", response.data);
+      console.log("Login response:", data);
 
-      const { token, user } = response.data;
+      alert("Login Successful!");
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
+      navigate("/dashboard", { replace: true });
 
-      console.log("Token saved:", token);
-      console.log("User saved:", user);
-
-      navigate("/dashboard");
     } catch (error) {
       console.error(
         "Login failed:",
         error.response?.data || error.message
       );
+
+      alert("Something went wrong. Please try again.");
     }
   };
 
