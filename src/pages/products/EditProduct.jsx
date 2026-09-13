@@ -11,6 +11,8 @@ export default function EditProduct({ products,onUpdate }) {
     
     const [tags, setTags] = useState(["#watch", "#car", "#accessories"]);
     const [newTag, setNewTag] = useState("");
+    const [imagePreviews, setImagePreviews] = useState([]);
+
 
     const [formData, setFormData] = useState({
         name: product.name,
@@ -19,7 +21,8 @@ export default function EditProduct({ products,onUpdate }) {
         category: product.category,
         short_description: product.short_description || "",
         description: product.description || "",
-        sku: product.sku || product.category
+        sku: product.sku || product.category,
+        image: imagePreviews.length > 0 ? imagePreviews : ["assets/images/placeholder.png"]
 })
 
     const handleSave = (e)=>{
@@ -41,10 +44,12 @@ export default function EditProduct({ products,onUpdate }) {
     }
 
     const fileInputRef = useRef(null);
+
     const handleImageChange = (e) =>{
         const files = Array.from(e.target.files)
         if (files.length>0){
             const newImageUrls = files.map(file=> URL.createObjectURL(file))
+            setImagePreviews(newImageUrls)
         }
     }
 
@@ -119,7 +124,7 @@ export default function EditProduct({ products,onUpdate }) {
                         <article className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
                             <div className="h-52 w-full overflow-hidden bg-slate-100">
                                 <img 
-                                   src={Array.isArray(product.image) ? product.image[0] : product.image} 
+                                   src={imagePreviews.length > 0 ? imagePreviews[0] : "assets/images/placeholder.png"} 
                                    alt={product.name} 
                                    className="object-cover w-full h-full"
                                 />
@@ -133,7 +138,7 @@ export default function EditProduct({ products,onUpdate }) {
                          type="file"
                          ref={fileInputRef} 
                          onChange={handleImageChange}
-                         maltiple
+                         multiple
                          accept="image/*" 
                         className="hidden"/>
 
