@@ -1,0 +1,26 @@
+{
+  "title": "الإعدادات",
+  "description": "إدارة تفضيلاتك وإعدادات حسابك.",
+
+  "preferences": "التفضيلات",
+  "preferencesDescription": "تخصيص تجربة لوحة التحكم الخاصة بك.",
+
+  "darkMode": "الوضع الداكن",
+  "darkModeDescription": "التبديل بين المظهر الفاتح والداكن.",
+
+  "language": "اللغة",
+  "languageDescription": "اختر اللغة المفضلة لديك.",
+
+  "notifications": "الإشعارات",
+  "notificationsDescription": "تلقي إشعارات لوحة التحكم.",
+
+  "account": "الحساب",
+  "accountDescription": "عرض معلومات حسابك.",
+
+  "name": "الاسم",
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+
+  "english": "الإنجليزية",
+  "arabic": "العربية"
+}

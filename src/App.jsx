@@ -1,24 +1,28 @@
-
-import { useState } from "react";
-
-import AdminLayout from "./layouts/AdminLayout.jsx";
-import { AuthProvider } from "./context/AuthContext.jsx";
-import React from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Login from "./pages/login.jsx";
 import Dashboard from "./pages/dashboard/Dashboard.jsx";
-import ProductList from "./pages/products/ProductsList";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import ProductCard from "./pages/products/ProductCard.jsx";
+import ProductList from "./pages/products/ProductsList.jsx";
 import ProductDetailes from "./pages/products/ProductDetailes.jsx";
 import EditProduct from "./pages/products/EditProduct.jsx";
+import UsersPage from "./pages/users/UsersPage.jsx";
 import AddProduct from "./pages/products/AddProduct.jsx";
+import Settings from "./pages/Settings.jsx";
 
+import AdminLayout from "./layouts/AdminLayout.jsx";
+import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 
+import { AuthProvider } from "./context/AuthContext.jsx";
+import { ThemeProvider } from "./context/ThemeContext.jsx";
+import { useState } from "react";
 
-function App(){
-
-const [products, setProducts] = useState([
-    { 
+function App() {
+  const [products, setProducts] = useState([
+     { 
         id: 1, 
         name: 'Vintage Brown Leather Watch', 
         brand: 'Fossil',
@@ -214,7 +218,10 @@ const [products, setProducts] = useState([
         short_description: 'Stylish modern sunglasses with full UV protection.',
         description: 'Protect your eyes while looking effortlessly cool. These modern sunglasses feature polarized lenses to reduce glare, lightweight frames for all-day comfort, and UV400 protection.'
     }
-]);
+
+  ]);
+
+
 
 
 const handleUpdateProduct = (updatedProduct)=>{
@@ -231,35 +238,42 @@ const handleDeleteProduct = (id)=>{
 }
 
 return (
-
-        <AuthProvider>
-               <BrowserRouter>
+ <ThemeProvider>
+    <AuthProvider>
+      <BrowserRouter>
       <div>
         <Routes>
       
           <Route path="/login" element={<Login />} />
 
-            {/* All admin pages share the same Navbar + Sidebar layout */}
-          <Route element={<AdminLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            {/* Protected Admin Pages */}
+            <Route element={<ProtectedRoute />}>
+              <Route element={<AdminLayout />}>
+                <Route index element={<Dashboard />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                
+                {/* Products */}
+                <Route path="/products" element={<ProductList products={products} onDelete={handleDeleteProduct}/>} />
+                <Route path="/products/add/" element={<AddProduct products={products} setProducts={setProducts} onAdd={handleAddedProduct}/>}/>
+                <Route path="/products/:id" element={<ProductDetailes products={products}/>}/>
+                <Route path="/products/edit/:id" element={<EditProduct products={products} setProducts={setProducts} onUpdate={handleUpdateProduct}/>}/>
 
-            <Route path="/products" element={<ProductList products={products} onDelete={handleDeleteProduct}/>} />
-            <Route path="/products/:id" element={<ProductDetailes products={products}/>}/>
-            <Route path="/products/edit/:id" element={<EditProduct products={products} setProducts={setProducts} onUpdate={handleUpdateProduct}/>}/>
-            <Route path="/products/add/" element={<AddProduct products={products} setProducts={setProducts} onAdd={handleAddedProduct}/>}/>
-          </Route>
+                
+                {/* Users & Settings */}
+                <Route path="/users" element={<UsersPage />} />
+                <Route path="/settings" element={<Settings />} />
+              </Route>
+            </Route>
 
-           {/* Keep unknown routes inside the admin area */}
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
-        </Routes>
+            {/* Unknown routes */}
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Routes>
       </div>
-    </BrowserRouter>
-        </AuthProvider>
 
+        </BrowserRouter>
+      </AuthProvider>
+    </ThemeProvider>
   );
-
-
 }
 
 export default App;
