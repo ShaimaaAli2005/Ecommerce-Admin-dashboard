@@ -26,38 +26,18 @@ function Sidebar() {
 
   return (
     <aside
-      className="
-        fixed left-0 top-0 z-50 flex h-screen w-60 flex-col
-        border-r border-[#E5E7EB]
-        bg-white
-        px-5 py-7
-        transition-colors duration-300
-
-        dark:border-gray-700
-        dark:bg-[#111827]
-      "
-    >
+      className=" fixed left-0 top-0 z-50 flex h-screen w-60 flex-col border-r border-[#E5E7EB] bg-white px-5 py-7 transition-colors duration-300 dark:border-gray-700 dark:bg-[#111827] " >
       {/* Logo */}
       <div className="mb-8 px-1">
         <div className="mb-3 flex items-center gap-3">
           <div>
             <p
-              className="
-                text-lg font-bold leading-tight
-                text-[#17233C]
-                dark:text-white
-              "
-            >
+              className=" text-lg font-bold leading-tight text-[#17233C] dark:text-white " >
               Commerce
             </p>
 
             <p
-              className="
-                text-[10px] font-medium uppercase tracking-[2px]
-                text-[#7B8190]
-                dark:text-gray-400
-              "
-            >
+              className=" text-[10px] font-medium uppercase tracking-[2px] text-[#7B8190] dark:text-gray-400 " >
               Admin Panel
             </p>
           </div>
@@ -107,38 +87,19 @@ function Sidebar() {
 
       {/* API Status */}
       <div
-        className="
-          mt-6 rounded-2xl
-          border border-[#E5E7EB]
-          bg-[#F7F5F0]
-          p-4
-          transition-colors duration-300
-
-          dark:border-gray-700
-          dark:bg-[#17233C]
-        "
-      >
+        className=" mt-6 rounded-2xl border border-[#E5E7EB] bg-[#F7F5F0] p-4 transition-colors duration-300 dark:border-gray-700 dark:bg-[#17233C] " >
         <div className="mb-2 flex items-center gap-2">
           <span className="h-2 w-2 rounded-full bg-[#4F8A70]" />
 
           <span
-            className="
-              text-[10px] font-bold tracking-[2px]
-              text-[#60708F]
-              dark:text-gray-400
-            "
+            className=" text-[10px] font-bold tracking-[2px] text-[#60708F] dark:text-gray-400 "
           >
             LIVE
           </span>
         </div>
 
         <p
-          className="
-            text-xs font-medium leading-5
-            text-[#17233C]
-            dark:text-white
-          "
-        >
+          className=" text-xs font-medium leading-5 text-[#17233C] dark:text-white " >
           Connected to the E-commerce API
         </p>
       </div>
