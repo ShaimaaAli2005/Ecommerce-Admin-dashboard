@@ -25,15 +25,13 @@ export default function ProductList({products,onDelete,onAdd}) {
     navigate('/products/add');
 };
 
-
-
     // filteration
     const filteredProducts = products.filter((product) => {
         const matchesSearch = product.name.toLowerCase().includes(search.toLowerCase()); //true or false
         const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+
         return matchesSearch && matchesCategory;
     });
-
     const startIndex = (page - 1) * itemsPerPage
     const endIndex = startIndex + itemsPerPage
     const currentProducts = filteredProducts.slice(startIndex,endIndex) 

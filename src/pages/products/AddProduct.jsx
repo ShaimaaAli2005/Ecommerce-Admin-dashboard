@@ -22,7 +22,9 @@ export default function AddProduct({onAdd }) {
         sku: "",
         stock:"",
         discount:"",
-        rating: 0
+        rating: 0,
+        isFeatured: false,
+        isActive: true
 })
 
 const handleSubmit = (e) => {
@@ -313,6 +315,7 @@ const handleSubmit = (e) => {
                             <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 cursor-pointer transition hover:border-[#E89A5B] hover:shadow-sm">
                               <input 
                               type="checkbox"
+                              onChange={(e)=>setFormData({...formData,isFeatured:e.target.checked})}
                               className="accent-[#17233C] cursor-pointer"/>Featured
                             </label>
                             <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 cursor-pointer transition hover:border-[#E89A5B] hover:shadow-sm">

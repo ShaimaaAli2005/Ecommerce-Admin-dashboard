@@ -199,7 +199,7 @@ function App() {
         rating: 4.8,
         image: [
             'https://images.unsplash.com/photo-1630019852942-f89202989a59?w=500',
-            'https://images.unsplash.com/photo-1630019852942-f89202989a59?w=500'
+             'https://images.unsplash.com/photo-1627123424574-724758594e93?w=500',
         ],
         short_description: 'Dazzling diamond earrings designed for special occasions.',
         description: 'Catch every eye with these elegant diamond earrings. Featuring brilliant stones securely set in precious metal, they provide a subtle yet breathtaking sparkle to complement any outfit.'
