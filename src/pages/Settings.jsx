@@ -51,9 +51,7 @@ function Settings() {
     );
   };
 
-  const handleLogout = () => {
-    logout();
-  };
+
 
   return (
     <div className="min-h-screen bg-[#F7F5F0] dark:bg-[#111827] p-4 sm:p-6 lg:p-8 transition-colors duration-300">
