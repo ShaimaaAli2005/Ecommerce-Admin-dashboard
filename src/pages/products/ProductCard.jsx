@@ -1,6 +1,8 @@
  import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import placeholderImg from '../../assets/images/placeholder.png';
+
 
 import { 
   faEye, 
@@ -8,7 +10,8 @@ import {
   faSliders, 
   faTrashCan, 
   faCircleChevronLeft, 
-  faCircleChevronRight 
+  faCircleChevronRight,
+  faStar
 } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -23,8 +26,16 @@ import {
                             style={{ borderRadius: '16px', border: '1px solid #E5E7EB' }}
                         >
                             {/* Product Image Container */}
-                            <div className="w-full h-48 mb-4 overflow-hidden rounded-xl bg-red-50 flex items-center justify-center border border-[#E5E7EB] relative">
-
+                          <div className="w-full h-48 mb-4 overflow-hidden rounded-xl flex items-center justify-center border border-[#E5E7EB] relative">
+                              {product?.isFeatured && (
+                              <div className="absolute text-sm font-bold rounded-full py-1 px-3 left-4 top-4 z-20 flex flex-wrap gap-2 bg-amber-400 text-slate-900">
+                              <span className="flex items-center gap-1">
+                              <FontAwesomeIcon icon={faStar} className="text-xs"/>
+                              Featured
+                              </span>
+                              </div>
+                            )}
+                                
                                 {/* Previous Button */}
                                 <button 
                                   
@@ -56,7 +67,6 @@ import {
                                 className="object-cover w-full h-full transition-transform group-hover:scale-150 duration-300" 
                                 onError={(e) => { e.target.src = placeholderImg; }} 
                                 />
-
                             </div>
 
                             {/* Product Details */}

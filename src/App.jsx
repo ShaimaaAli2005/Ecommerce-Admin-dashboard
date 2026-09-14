@@ -216,6 +216,7 @@ const [products, setProducts] = useState([
     }
 ]);
 
+
 const handleUpdateProduct = (updatedProduct)=>{
     setProducts(products.map(p=> p.id === updatedProduct.id? updatedProduct: p))
 }

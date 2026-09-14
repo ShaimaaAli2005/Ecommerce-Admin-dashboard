@@ -114,7 +114,7 @@ button {
     font-size: 15px;
   }
 }
-
+}
 
 ::-webkit-scrollbar-thumb {
   background: rgba(96, 112, 143, 0.45);
@@ -124,6 +124,7 @@ button {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--secondary);
 }
+
 
 /* Filter icon */
 .filter-icon {
@@ -222,7 +223,7 @@ button {
 }
 
 /* 2. أنيميشن ظهور الكروت تدريجياً (Staggered Entrance) */
-}
+
 
 /* Card entrance animation */
 @keyframes cardEntrance {
@@ -279,4 +280,4 @@ button {
   }
 
 }
-}
+

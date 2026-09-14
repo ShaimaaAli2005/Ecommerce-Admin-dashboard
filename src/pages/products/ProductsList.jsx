@@ -4,10 +4,10 @@ import axiosInstance from "../../api/axiosInstance";
 import placeholderImg from '../../assets/images/placeholder.png';
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faSearch, faFilter, faBox, faPlus} from '@fortawesome/free-solid-svg-icons'
+import {faSearch, faFilter, faBox, faPlus, faStar, faArrowTrendUp, faCubes} from '@fortawesome/free-solid-svg-icons'
 
 import ProductCard from "./ProductCard";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function ProductList({products,onDelete,onAdd}) {
 
@@ -24,6 +24,8 @@ export default function ProductList({products,onDelete,onAdd}) {
     navigate('/products/add');
 };
 
+
+
     // filteration
     const filteredProducts = products.filter((product) => {
         const matchesSearch = product.name.toLowerCase().includes(search.toLowerCase()); //true or false
@@ -36,6 +38,12 @@ export default function ProductList({products,onDelete,onAdd}) {
     const currentProducts = filteredProducts.slice(startIndex,endIndex) 
 
     const numOfPage = Math.ceil(filteredProducts.length / itemsPerPage)
+    
+    const totalProducts = currentProducts.length
+    
+    const featuredProducts = filteredProducts.filter(p=>p.isFeatured).length
+    
+
 
     return (
         <div className="p-6 max-w-7xl mx-auto min-h-screen" style={{ backgroundColor: '#F7F5F0' }}>
@@ -61,7 +69,58 @@ export default function ProductList({products,onDelete,onAdd}) {
                             </button>
                         </div>
             </div>
-    
+            {/* new updates*/}
+            <div className="grid grid-cols-2 gap-4 xl:grid-cols-4 mb-5">
+
+             {/*total*/}
+            <div className="rounded-[20px] border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900"
+            style={{opacity:1,transform:"none"}}>
+             {/*icon box*/}   
+            <div className="mb-3 h-10 w-10 inline-flex items-center justify-center rounded-xl border dark:border-slate-800 dark:bg-slate-700 dark:border-slate-800 dark:text-slate-300">
+                <FontAwesomeIcon icon={faBox}/>
+            </div>
+             <p className="text-2xl font-bold dark:text-white text-slate-900">{totalProducts}</p>
+             <p className="text-xs mt-0.5 dark:text-slate-500 text-slate-500">Total</p>
+            </div>
+
+               {/*featured*/}
+            <div className="rounded-[20px] border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900"
+            style={{opacity:1,transform:"none"}}>
+
+             {/*icon star*/}   
+            <div className="mb-3 h-10 w-10 inline-flex items-center justify-center rounded-xl border dark:border-slate-800 dark:bg-slate-700 dark:border-slate-800 dark:text-slate-300">
+                <FontAwesomeIcon icon={faStar}/>
+            </div>
+             <p className="text-2xl dark:text-white text-slate-900 font-bold">{featuredProducts}</p>
+             <p className="text-xs mt-0.5 dark:text-slate-500 text-slate-500">featured</p>
+            </div>
+
+
+               {/*In Stock*/}
+            <div className="rounded-[20px] border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900"
+            style={{opacity:1,transform:"none"}}>
+             {/*icon*/}   
+            <div className="mb-3 h-10 w-10 inline-flex items-center justify-center rounded-xl border dark:border-slate-800 dark:bg-slate-700 dark:border-slate-800 dark:text-slate-300">
+                <FontAwesomeIcon icon={faArrowTrendUp}/>
+            </div>
+             <p className="text-2xl dark:text-white text-slate-900 font-bold">0</p>
+             <p className="text-xs mt-0.5 dark:text-slate-500 text-slate-500">In Stock</p>
+            </div>
+
+               {/*Out of Stock*/}
+            <div className="rounded-[20px] border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900"
+            style={{opacity:1,transform:"none"}}>
+             {/*icon*/}   
+            <div className="mb-3 h-10 w-10 inline-flex items-center justify-center rounded-xl border dark:border-slate-800 dark:bg-slate-700 dark:border-slate-800 dark:text-slate-300">
+                <FontAwesomeIcon icon={faCubes}/>
+            </div>
+             <p className="text-2xl dark:text-white text-slate-900 font-bold">0</p>
+             <p className="text-xs mt-0.5 dark:text-slate-500 text-slate-500">Out of Stock</p>
+            </div>
+
+            </div>
+         
+
             {/* Search & Filter Bar */}
             <div className="mb-6 flex flex-col md:flex-row gap-4">
                 <span className="absolute  flex items-center py-3 px-2 ">
