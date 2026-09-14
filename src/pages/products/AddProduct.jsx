@@ -1,7 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faBox, faImage, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faBox, faImage, faPlus, faXmark, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useState,useRef } from "react";
+import placeholderImg from '../../assets/images/placeholder.png';
+
 
 export default function AddProduct({onAdd }) {
     const navigate = useNavigate();
@@ -18,6 +20,8 @@ export default function AddProduct({onAdd }) {
         short_description: "",
         description: "",
         sku: "",
+        stock:"",
+        discount:"",
         rating: 0
 })
 
@@ -29,7 +33,7 @@ const handleSubmit = (e) => {
         id: Date.now(), 
         price: Number(formData.price),
         rating: Number(formData.rating) || 0,
-        image: imagePreviews.length > 0 ? imagePreviews : ["assets/images/placeholder.png"]
+        image: imagePreviews.length > 0 ? imagePreviews : placeholderImg
     };
     if (typeof onAdd === "function") {
         onAdd(newProduct);
@@ -100,6 +104,8 @@ const handleSubmit = (e) => {
                 
                 {/* Left Side Card */}
                 <div className="bg-white rounded-3xl p-6 shadow-sm space-y-6 border border-gray-200">
+
+                    {/*title */}
                     <div className="flex items-center gap-4">
                         <div className="bg-gray-100 rounded-2xl p-3 shrink-0">
                             <FontAwesomeIcon icon={faImage} className="text-2xl text-[#17233C]" />
@@ -111,19 +117,30 @@ const handleSubmit = (e) => {
                     </div>
 
                     <div className="space-y-4 mt-6 mb-10">
-                        <article className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+
+                        {/*imgs section*/}
+                        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+
+                            <article className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
                             <div className="h-52 w-full overflow-hidden bg-slate-100">
                                 <img 
-                                   src={imagePreviews.length > 0 ? imagePreviews[0] : "assets/images/placeholder.png"} 
+                                   src={imagePreviews.length > 0 ? imagePreviews[0] : placeholderImg} 
                                    alt="Product Preview"
-                                   className="object-cover w-full h-full"
+                                   className="object-contain w-full h-full"
                                 />
                             </div>
+
+                        <button type="button" className="absolute bg-black/40 hover:bg-black/60 z-10 top-3 right-3 flex h-9 w-9 flex items-center justify-center rounded-full text-white">
+                          <FontAwesomeIcon icon={faTrashCan}/> 
+                        </button>
+
                             <div className="px-5 py-3 text-xs font-semibold text-[#17233C] uppercase tracking-[0.25em] bg-white border-t border-slate-100">
                                 image 1
                             </div>
                         </article>
-                       
+
+                        </div>
+
                          <input 
                          type="file"
                          ref={fileInputRef} 
@@ -151,6 +168,7 @@ const handleSubmit = (e) => {
                         </div>
                     </div>
                 </div>
+
 
                 {/* Right Side Card */}
                 <div className="bg-white rounded-3xl p-6 shadow-sm space-y-6 border border-gray-200">
@@ -192,11 +210,31 @@ const handleSubmit = (e) => {
                             </label>
 
                             <label className="block">
+                                <span className="mb-2 block text-sm font-semibold text-slate-700">Discount Price</span>
+                                <input 
+                                type="number" 
+                                className="h-14 w-full rounded-2xl px-5 outline-none border border-slate-200" 
+                                value={formData.discount}
+                                onChange={(e)=>setFormData({...formData,discount:e.target.value})} />
+                            </label>
+                         </div>   
+
+                        <div className="grid gap-5 md:grid-cols-2">
+                            <label className="block">
                                 <span className="mb-2 block text-sm font-semibold text-slate-700">SKU</span>
                                 <input 
                                 className="h-14 w-full rounded-2xl px-5 outline-none border border-slate-200" 
                                  value={formData.sku}
                                 onChange={(e)=>setFormData({...formData,sku:e.target.value})} />
+                            </label>
+                            
+                            <label className="block">
+                                <span className="mb-2 block text-sm font-semibold text-slate-700">Stock</span>
+                                <input 
+                                type="number" 
+                                className="h-14 w-full rounded-2xl px-5 outline-none border border-slate-200" 
+                                value={formData.stock}
+                                onChange={(e)=>setFormData({...formData,stock:e.target.value})} />
                             </label>
                         </div>
 

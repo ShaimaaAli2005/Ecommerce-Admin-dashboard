@@ -1,7 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faBox, faImage, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faBox, faImage, faPlus, faXmark, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState,useRef } from "react";
+import placeholderImg from '../../assets/images/placeholder.png';
+
 
 export default function EditProduct({ products,onUpdate }) {
     const navigate = useNavigate();
@@ -11,7 +13,10 @@ export default function EditProduct({ products,onUpdate }) {
     
     const [tags, setTags] = useState(["#watch", "#car", "#accessories"]);
     const [newTag, setNewTag] = useState("");
-    const [imagePreviews, setImagePreviews] = useState([]);
+   const [imagePreviews, setImagePreviews] = useState(() => {
+        if (!product?.image) return [];
+        return Array.isArray(product.image) ? product.image : [product.image];
+    });
 
 
     const [formData, setFormData] = useState({
@@ -22,7 +27,9 @@ export default function EditProduct({ products,onUpdate }) {
         short_description: product.short_description || "",
         description: product.description || "",
         sku: product.sku || product.category,
-        image: imagePreviews.length > 0 ? imagePreviews : ["assets/images/placeholder.png"]
+        image: product?.image ? (Array.isArray(product.image) ? product.image : [product.image]) : [],
+        isFeatured: product?.isFeatured || false,
+        isActive: product?.isActive !== undefined? product?.isActive: true
 })
 
     const handleSave = (e)=>{
@@ -47,10 +54,25 @@ export default function EditProduct({ products,onUpdate }) {
 
     const handleImageChange = (e) =>{
         const files = Array.from(e.target.files)
+        
         if (files.length>0){
             const newImageUrls = files.map(file=> URL.createObjectURL(file))
-            setImagePreviews(newImageUrls)
+        
+            setImagePreviews(prev=>{
+               const updatedImgs = [...prev,...newImageUrls]
+                setFormData(form=>({...form,image:updatedImgs}))
+                return updatedImgs;
+            })
+      
         }
+    }
+
+    const handleRemoveImage = (indexToRemove)=>{
+        setImagePreviews(prev=>{
+            const updatedImgs = prev.filter((_,index)=>index !== indexToRemove)
+             setFormData(form=>({...form,image:updatedImgs}))
+             return updatedImgs;
+        })
     }
 
     if (!product) {
@@ -110,29 +132,62 @@ export default function EditProduct({ products,onUpdate }) {
                 
                 {/* Left Side Card */}
                 <div className="bg-white rounded-3xl p-6 shadow-sm space-y-6 border border-gray-200">
+                     {/*title */}
                     <div className="flex items-center gap-4">
                         <div className="bg-gray-100 rounded-2xl p-3 shrink-0">
                             <FontAwesomeIcon icon={faImage} className="text-2xl text-[#17233C]" />
                         </div>
                         <div>
-                            <h2 className="text-xl font-bold text-[#17233C]">Product Gallery</h2>
-                            <p className="text-gray-500 text-sm mt-0.5">Keep existing images, add new ones, or remove selected assets.</p>
+                        <h2 className="text-xl font-bold text-[#17233C]">Product Gallery</h2>
+                        <p className="text-gray-500 text-sm mt-0.5">Keep existing images, add new ones, or remove selected assets.</p>
                         </div>
-                    </div>
-
+                   </div>
+                    
                     <div className="space-y-4 mt-6 mb-10">
-                        <article className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-                            <div className="h-52 w-full overflow-hidden bg-slate-100">
-                                <img 
-                                   src={imagePreviews.length > 0 ? imagePreviews[0] : "assets/images/placeholder.png"} 
-                                   alt={product.name} 
-                                   className="object-cover w-full h-full"
-                                />
+                    
+                        {/*imgs section*/}
+                            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                            {imagePreviews.length>0?(
+                                imagePreviews.map((imgSrc,index)=>(
+                                 <article key={index} className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+                                    <div className="h-52 w-full overflow-hidden bg-slate-100">
+                                    <img 
+                                    src={imgSrc}
+                                    alt="Product Preview"
+                                    className="object-contain w-full h-full"
+                                    />
+                                    </div>
+                    
+                                    <button 
+                                   type="button" 
+                                   onClick={()=>handleRemoveImage(index)}
+                                   className="absolute bg-black/40 hover:bg-black/60 z-10 top-3 right-3 flex h-9 w-9 flex items-center justify-center rounded-full text-white">
+                                        <FontAwesomeIcon icon={faTrashCan}/> 
+                                    </button>
+                    
+                                    <div className="px-5 py-3 text-xs font-semibold text-[#17233C] uppercase tracking-[0.25em] bg-white border-t border-slate-100">
+                                        image {index + 1}
+                                    </div>
+                                </article>
+                                ))   
+                            ):(
+                                    <article className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+                                    <div className="h-52 w-full overflow-hidden bg-slate-100">
+                                    <img 
+                                    src={placeholderImg}
+                                    alt="Product Preview"
+                                    className="object-contain w-full h-full"
+                                    />
+                                    </div>
+                    
+                                    <div className="px-5 py-3 text-xs font-semibold text-[#17233C] uppercase tracking-[0.25em] bg-white border-t border-slate-100">
+                                        image not found
+                                    </div>
+                                </article>
+                            )}
+                             
+
                             </div>
-                            <div className="px-5 py-3 text-xs font-semibold text-[#17233C] uppercase tracking-[0.25em] bg-white border-t border-slate-100">
-                                image 1
-                            </div>
-                        </article>
                        
                          <input 
                          type="file"
@@ -285,11 +340,13 @@ export default function EditProduct({ products,onUpdate }) {
                             <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 cursor-pointer transition hover:border-[#E89A5B] hover:shadow-sm">
                               <input 
                               type="checkbox"
+                              onChange={(e)=>setFormData({...formData,isFeatured:e.target.checked})}
                               className="accent-[#17233C] cursor-pointer"/>Featured
                             </label>
                             <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 cursor-pointer transition hover:border-[#E89A5B] hover:shadow-sm">
                               <input 
                               type="checkbox"
+                              onChange={(e)=>setFormData({...formData,isActive:e.target.checked})}
                               className="accent-[#17233C] cursor-pointer"/>Active
                             </label>
                         </div>
