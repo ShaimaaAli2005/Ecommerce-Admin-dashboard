@@ -12,6 +12,7 @@ import EditProduct from "./pages/products/EditProduct.jsx";
 import UsersPage from "./pages/users/UsersPage.jsx";
 import AddProduct from "./pages/products/AddProduct.jsx";
 import Settings from "./pages/Settings.jsx";
+import CartsList from "./pages/carts/CartsList.jsx";
 
 import AdminLayout from "./layouts/AdminLayout.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
@@ -42,8 +43,8 @@ function App() {
                 <Route path="/products/add" element={<AddProduct />} />
                 <Route path="/products/:id" element={<ProductDetailes products={products} />} />
                 <Route path="/products/edit/:id" element={<EditProduct products={products} setProducts={setProducts} />} />
-                
-                {/* Users & Settings */}
+                <Route path="/carts" element={<CartsList />} />
+          
                 <Route path="/users" element={<UsersPage />} />
                 <Route path="/settings" element={<Settings />} />
               </Route>
