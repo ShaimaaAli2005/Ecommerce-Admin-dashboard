@@ -17,8 +17,19 @@ function Navbar() {
   };
 
   return (
-    
-    <nav className="fixed left-60 right-0 top-0 z-40 flex h-24 items-center justify-between border-b border-[#E5E7EB] bg-white/95 px-8 backdrop-blur-sm">
+    <nav
+      className="
+        fixed left-60 right-0 top-0 z-40
+        flex h-24 items-center justify-between
+        border-b border-[#E5E7EB]
+        bg-white/95
+        px-8
+        backdrop-blur-sm
+
+        dark:border-gray-700
+        dark:bg-[#111827]/95
+      "
+    >
       {/* Page / brand identity */}
       <div className="flex items-center gap-4">
         <div
@@ -44,15 +55,23 @@ function Navbar() {
           >
             {t("dashboard")}
           </h1>
-          <p className="mt-0.5 text-sm text-[#7B8190]">
+
+          <p
+            className="
+              mt-0.5 text-sm
+              text-[#7B8190]
+              dark:text-gray-400
+            "
+          >
             E-Commerce Admin Panel
           </p>
         </div>
       </div>
 
       {/* Actions / profile / logout */}
-    
       <div className="flex items-center gap-3">
+
+        {/* Notifications */}
         <button
           type="button"
           aria-label={t("notifications")}
@@ -74,7 +93,14 @@ function Navbar() {
         >
           <span className="relative">
             <Bell size={20} />
-            <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-[#E89A5B]" />
+
+            <span
+              className="
+                absolute -right-1 -top-1
+                h-2 w-2 rounded-full
+                bg-[#E89A5B]
+              "
+            />
           </span>
         </button>
 
@@ -99,7 +125,11 @@ function Navbar() {
             dark:text-white
           "
         >
-          {darkMode ? <Sun size={19} /> : <Moon size={19} />}
+          {darkMode ? (
+            <Sun size={19} />
+          ) : (
+            <Moon size={19} />
+          )}
         </button>
 
         {/* Divider */}
@@ -135,7 +165,16 @@ function Navbar() {
             >
               {t("admin")}
             </p>
-            <p className="mt-0.5 text-xs text-[#7B8190]">Administrator</p>
+
+            <p
+              className="
+                mt-0.5 text-xs
+                text-[#7B8190]
+                dark:text-gray-400
+              "
+            >
+              Administrator
+            </p>
           </div>
         </div>
 
