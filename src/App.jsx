@@ -14,6 +14,7 @@ import AddProduct from "./pages/products/AddProduct.jsx";
 import Settings from "./pages/Settings.jsx";
 import CartsList from "./pages/carts/CartsList.jsx";
 import PageLoader from "./components/loader/PageLoader";
+import Orders from "./pages/Orders/Orders.jsx";
 
 import AdminLayout from "./layouts/AdminLayout.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
@@ -262,6 +263,7 @@ return (
                 <Route path="/products/edit/:id" element={<EditProduct products={products} setProducts={setProducts} onUpdate={handleUpdateProduct}/>}/>
 
                <Route path="/carts" element={<CartsList />} />
+               <Route path="/orders" element={<Orders />} />
                 {/* Users & Settings */}
                 <Route path="/users" element={<UsersPage />} />
                 <Route path="/settings" element={<Settings />} />
