@@ -261,7 +261,7 @@ return (
                 <Route path="/products/:id" element={<ProductDetailes products={products}/>}/>
                 <Route path="/products/edit/:id" element={<EditProduct products={products} setProducts={setProducts} onUpdate={handleUpdateProduct}/>}/>
 
-                
+               <Route path="/carts" element={<CartsList />} />
                 {/* Users & Settings */}
                 <Route path="/users" element={<UsersPage />} />
                 <Route path="/settings" element={<Settings />} />

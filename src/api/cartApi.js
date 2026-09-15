@@ -6,6 +6,18 @@ export const getCart = async () => {
   return response.data;
 };
 
+// Get all active carts for admin
+export const getAdminCarts = async (page = 1, limit = 20) => {
+  const response = await axiosInstance.get("/orders/admin/carts", {
+    params: {
+      page,
+      limit,
+    },
+  });
+
+  return response.data;
+};
+
 // Add product to cart
 export const addToCart = async (productId, quantity) => {
   const response = await axiosInstance.post("/carts/items", {
