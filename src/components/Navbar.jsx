@@ -76,12 +76,11 @@ function Navbar() {
           </span>
         </button>
 
-        {/* Theme Toggle */}
+       {/* Theme Toggle */}
         <button
           type="button"
           onClick={toggleDarkMode}
           aria-label="Toggle theme"
-<<<<<<< HEAD
           className="
             flex h-10 w-10 items-center justify-center
             rounded-full
@@ -103,10 +102,6 @@ function Navbar() {
           ) : (
             <Moon size={19} />
           )}
-=======
-          className=" flex h-10 w-10 items-center justify-center rounded-full border border-[#E5E7EB] bg-white text-[#17233C] shadow-sm transition hover:border-[#E89A5B] hover:text-[#E89A5B] dark:border-gray-700 dark:bg-[#17233C] dark:text-white " >
-          {darkMode ? <Sun size={19} /> : <Moon size={19} />}
->>>>>>> origin/develop
         </button>
 
         {/* Divider */}
