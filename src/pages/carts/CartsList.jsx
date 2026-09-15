@@ -1,83 +1,30 @@
 import { useEffect, useState } from "react";
-import {
-  getCart,
-  updateCartItem,
-  removeCartItem,
-  clearCart,
-} from "../../api/cartApi";
+import { getAdminCarts } from "../../api/cartApi";
 
 function CartsList() {
-  const [cart, setCart] = useState(null);
+  const [carts, setCarts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const fetchCart = async () => {
+  const fetchCarts = async () => {
     try {
       setLoading(true);
       setError("");
 
-      const data = await getCart();
+      const data = await getAdminCarts();
 
-      setCart(data);
+      setCarts(data.carts || []);
     } catch (error) {
-      console.error("Get cart error:", error);
-      setError("Failed to load cart.");
+      console.error("Get admin carts error:", error);
+      setError("Failed to load carts.");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchCart();
+    fetchCarts();
   }, []);
-
-  const handleIncrease = async (item) => {
-    try {
-      const updatedCart = await updateCartItem(
-        item.product,
-        item.quantity + 1
-      );
-
-      setCart(updatedCart);
-    } catch (error) {
-      console.error("Update cart error:", error);
-    }
-  };
-
-  const handleDecrease = async (item) => {
-    if (item.quantity <= 1) return;
-
-    try {
-      const updatedCart = await updateCartItem(
-        item.product,
-        item.quantity - 1
-      );
-
-      setCart(updatedCart);
-    } catch (error) {
-      console.error("Update cart error:", error);
-    }
-  };
-
-  const handleRemove = async (productId) => {
-    try {
-      const updatedCart = await removeCartItem(productId);
-
-      setCart(updatedCart);
-    } catch (error) {
-      console.error("Remove cart item error:", error);
-    }
-  };
-
-  const handleClearCart = async () => {
-    try {
-      const updatedCart = await clearCart();
-
-      setCart(updatedCart);
-    } catch (error) {
-      console.error("Clear cart error:", error);
-    }
-  };
 
   if (loading) {
     return (
@@ -105,16 +52,16 @@ function CartsList() {
     );
   }
 
-  if (!cart || cart.items?.length === 0) {
+  if (carts.length === 0) {
     return (
       <div className="p-6">
-        <h1 className="mb-6 text-2xl font-bold">
-          Shopping Cart
+        <h1 className="mb-6 text-2xl font-bold dark:text-white">
+          Shopping Carts
         </h1>
 
-        <div className="rounded-xl border border-gray-200 bg-white p-8 text-center">
-          <p className="text-gray-500">
-            Your cart is empty.
+        <div className="rounded-xl border border-gray-200 bg-white p-8 text-center dark:border-gray-700 dark:bg-gray-800">
+          <p className="text-gray-500 dark:text-gray-400">
+            No active carts found.
           </p>
         </div>
       </div>
@@ -123,130 +70,93 @@ function CartsList() {
 
   return (
     <div className="p-6">
-      <div className="mb-6 flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">
-            Shopping Cart
-          </h1>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold dark:text-white">
+          Shopping Carts
+        </h1>
 
-          <p className="mt-1 text-gray-500">
-            {cart.itemCount} items
-          </p>
-        </div>
-
-        <button
-          onClick={handleClearCart}
-          className="rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-600"
-        >
-          Clear Cart
-        </button>
+        <p className="mt-1 text-gray-500 dark:text-gray-400">
+          {carts.length} active cart{carts.length !== 1 ? "s" : ""}
+        </p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-       
-        <div className="space-y-4 lg:col-span-2">
-          {cart.items.map((item) => (
-            <div
-              key={item._id}
-              className="flex items-center gap-4 rounded-xl border border-gray-200 bg-white p-4"
-            >
-              <img
-                src={item.image}
-                alt={item.name}
-                className="h-24 w-24 rounded-lg object-cover"
-              />
+      <div className="space-y-6">
+        {carts.map((cart) => (
+          <div
+            key={cart._id}
+            className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800"
+          >
+            {/* Customer Information */}
+            <div className="mb-5 border-b border-gray-200 pb-4 dark:border-gray-700">
+              <h2 className="text-lg font-semibold dark:text-white">
+                {cart.user?.username || "Unknown User"}
+              </h2>
 
-              <div className="flex-1">
-                <h2 className="font-semibold">
-                  {item.name}
-                </h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                {cart.user?.email || "No email"}
+              </p>
+            </div>
 
-                <p className="mt-1 text-gray-500">
-                  ${item.price}
+            {/* Cart Items */}
+            <div className="space-y-4">
+              {cart.items?.map((item) => (
+                <div
+                  key={item._id}
+                  className="flex items-center gap-4 rounded-lg border border-gray-100 p-4 dark:border-gray-700"
+                >
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="h-20 w-20 rounded-lg object-cover"
+                  />
+
+                  <div className="flex-1">
+                    <h3 className="font-semibold dark:text-white">
+                      {item.name}
+                    </h3>
+
+                    <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                      ${item.price}
+                    </p>
+
+                    <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                      Quantity: {item.quantity}
+                    </p>
+                  </div>
+
+                  <div className="text-right">
+                    <p className="font-semibold text-[#E89A5B]">
+                      ${(item.price * item.quantity).toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Cart Summary */}
+            <div className="mt-5 flex items-center justify-between border-t border-gray-200 pt-4 dark:border-gray-700">
+              <div>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Items
                 </p>
 
-                <div className="mt-3 flex items-center gap-3">
-                  <button
-                    onClick={() => handleDecrease(item)}
-                    className="h-8 w-8 rounded border"
-                  >
-                    -
-                  </button>
-
-                  <span className="min-w-6 text-center">
-                    {item.quantity}
-                  </span>
-
-                  <button
-                    onClick={() => handleIncrease(item)}
-                    className="h-8 w-8 rounded border"
-                  >
-                    +
-                  </button>
-                </div>
+                <p className="font-semibold dark:text-white">
+                  {cart.itemCount}
+                </p>
               </div>
 
-              <button
-                onClick={() => handleRemove(item.product)}
-                className="text-sm text-red-500 hover:text-red-600"
-              >
-                Remove
-              </button>
-            </div>
-          ))}
-        </div>
+              <div className="text-right">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Subtotal
+                </p>
 
-
-        <div className="h-fit rounded-xl border border-gray-200 bg-white p-5">
-          <h2 className="mb-5 text-xl font-semibold">
-            Cart Summary
-          </h2>
-
-          <div className="space-y-3">
-            <div className="flex justify-between">
-              <span className="text-gray-500">
-                Items
-              </span>
-
-              <span>{cart.itemCount}</span>
-            </div>
-
-            <div className="flex justify-between">
-              <span className="text-gray-500">
-                Subtotal
-              </span>
-
-              <span>${cart.subtotal}</span>
-            </div>
-
-            <div className="flex justify-between">
-              <span className="text-gray-500">
-                Discount
-              </span>
-
-              <span className="text-green-600">
-                -${cart.discountAmount}
-              </span>
-            </div>
-
-            {cart.coupon && (
-              <div className="flex justify-between">
-                <span className="text-gray-500">
-                  Coupon
-                </span>
-
-                <span>{cart.coupon}</span>
-              </div>
-            )}
-
-            <div className="border-t pt-4">
-              <div className="flex justify-between text-lg font-bold">
-                <span>Total</span>
-                <span>${cart.total}</span>
+                <p className="text-xl font-bold text-[#E89A5B]">
+                  ${Number(cart.subtotal || 0).toFixed(2)}
+                </p>
               </div>
             </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );

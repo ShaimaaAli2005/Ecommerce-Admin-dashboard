@@ -13,6 +13,8 @@ import UsersPage from "./pages/users/UsersPage.jsx";
 import AddProduct from "./pages/products/AddProduct.jsx";
 import Settings from "./pages/Settings.jsx";
 import CartsList from "./pages/carts/CartsList.jsx";
+import PageLoader from "./components/loader/PageLoader";
+import Orders from "./pages/Orders/Orders.jsx";
 
 import AdminLayout from "./layouts/AdminLayout.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
@@ -68,6 +70,7 @@ return (
     <AuthProvider>
       <BrowserRouter>
       <div>
+        <PageLoader>
         <Routes>
       
           <Route path="/login" element={<Login />} />
@@ -84,7 +87,8 @@ return (
                 <Route path="/products/:id" element={<ProductDetailes products={products}/>}/>
                 <Route path="/products/update/:id" element={<EditProduct products={products} setProducts={setProducts} onUpdate={handleUpdateProduct}/>}/>
 
-                
+               <Route path="/carts" element={<CartsList />} />
+               <Route path="/orders" element={<Orders />} />
                 {/* Users & Settings */}
                 <Route path="/users" element={<UsersPage />} />
                 <Route path="/settings" element={<Settings />} />
@@ -94,6 +98,7 @@ return (
             {/* Unknown routes */}
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
+        </PageLoader>
       </div>
 
         </BrowserRouter>
