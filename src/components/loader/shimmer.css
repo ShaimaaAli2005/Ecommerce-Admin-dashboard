@@ -1,0 +1,18 @@
+@keyframes lumaShimmer {
+  100% { transform: translateX(100%); }
+}
+@keyframes lumaReveal {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes lumaChart {
+  from { transform: scaleY(.08); opacity: .35; }
+  to { transform: scaleY(1); opacity: 1; }
+}
+.luma-shimmer { animation: lumaShimmer 1.35s ease-in-out infinite; }
+.luma-reveal { opacity: 0; animation: lumaReveal 520ms ease-out forwards; }
+.luma-chart-bar {
+  transform-origin: bottom;
+  animation: lumaChart 650ms cubic-bezier(.22,1,.36,1) forwards;
+  opacity: .35;
+}

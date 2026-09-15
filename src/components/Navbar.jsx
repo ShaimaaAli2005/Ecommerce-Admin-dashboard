@@ -33,26 +33,13 @@ function Navbar() {
       {/* Page / brand identity */}
       <div className="flex items-center gap-4">
         <div
-          className="
-            flex h-11 w-11 items-center justify-center
-            rounded-xl
-            bg-[#17233C]
-            text-xl font-bold
-            text-[#E89A5B]
-            shadow-sm
-          "
-        >
+          className=" flex h-11 w-11 items-center justify-center rounded-xl bg-[#17233C] text-xl font-bold text-[#E89A5B] shadow-sm " >
           L
         </div>
 
         <div>
           <h1
-            className="
-              text-xl font-bold leading-tight
-              text-[#17233C]
-              dark:text-white
-            "
-          >
+            className=" text-xl font-bold leading-tight text-[#17233C] dark:text-white " >
             {t("dashboard")}
           </h1>
 
@@ -75,22 +62,7 @@ function Navbar() {
         <button
           type="button"
           aria-label={t("notifications")}
-          className="
-            flex h-10 w-10 items-center justify-center
-            rounded-full
-            border border-[#E5E7EB]
-            bg-white
-            text-[#17233C]
-            shadow-sm
-            transition
-            hover:border-[#E89A5B]
-            hover:text-[#E89A5B]
-
-            dark:border-gray-700
-            dark:bg-[#17233C]
-            dark:text-white
-          "
-        >
+          className=" flex h-10 w-10 items-center justify-center rounded-full border border-[#E5E7EB] bg-white text-[#17233C] shadow-sm transition hover:border-[#E89A5B] hover:text-[#E89A5B] dark:border-gray-700 dark:bg-[#17233C] dark:text-white " >
           <span className="relative">
             <Bell size={20} />
 
@@ -109,6 +81,7 @@ function Navbar() {
           type="button"
           onClick={toggleDarkMode}
           aria-label="Toggle theme"
+<<<<<<< HEAD
           className="
             flex h-10 w-10 items-center justify-center
             rounded-full
@@ -130,39 +103,24 @@ function Navbar() {
           ) : (
             <Moon size={19} />
           )}
+=======
+          className=" flex h-10 w-10 items-center justify-center rounded-full border border-[#E5E7EB] bg-white text-[#17233C] shadow-sm transition hover:border-[#E89A5B] hover:text-[#E89A5B] dark:border-gray-700 dark:bg-[#17233C] dark:text-white " >
+          {darkMode ? <Sun size={19} /> : <Moon size={19} />}
+>>>>>>> origin/develop
         </button>
 
         {/* Divider */}
-        <div
-          className="
-            mx-1 h-8 w-px
-            bg-[#E5E7EB]
-            dark:bg-gray-700
-          "
-        />
+        <div className=" mx-1 h-8 w-px bg-[#E5E7EB] dark:bg-gray-700 " />
 
         {/* Profile */}
         <div className="flex items-center gap-3">
           <div
-            className="
-              flex h-10 w-10 items-center justify-center
-              rounded-full
-              bg-[#60708F]
-              font-semibold
-              text-white
-            "
-          >
+            className=" flex h-10 w-10 items-center justify-center rounded-full bg-[#60708F] font-semibold text-white " >
             A
           </div>
-
           <div className="hidden xl:block">
             <p
-              className="
-                text-sm font-semibold leading-tight
-                text-[#17233C]
-                dark:text-white
-              "
-            >
+              className=" text-sm font-semibold leading-tight text-[#17233C] dark:text-white " >
               {t("admin")}
             </p>
 
@@ -182,25 +140,10 @@ function Navbar() {
         <button
           type="button"
           onClick={handleLogout}
-          className="
-            flex items-center gap-2
-            rounded-lg
-            bg-[#17233C]
-            px-4 py-2.5
-            text-sm font-medium
-            text-white
-            transition
-            hover:bg-[#60708F]
-
-            dark:bg-[#E89A5B]
-            dark:text-[#17233C]
-            dark:hover:bg-[#d88748]
-          "
-        >
+          className=" flex items-center gap-2 rounded-lg bg-[#17233C] px-4 py-2.5 text-sm font-medium text-white transition hover:bg-[#60708F] dark:bg-[#E89A5B] dark:text-[#17233C] dark:hover:bg-[#d88748] " >
           <LogOut size={17} />
           {t("logout")}
         </button>
-
       </div>
     </nav>
   );

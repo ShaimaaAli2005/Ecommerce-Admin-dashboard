@@ -1,5 +1,4 @@
 @import "tailwindcss";
-
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
@@ -70,6 +69,18 @@ button {
   background: var(--background);
 }
 
+
+
+
+/* ضبط استجابة الخط للحجم الأصغر بشكل مستقل خارج :root */
+@media (max-width: 1024px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+
+
 ::-webkit-scrollbar-thumb {
   background: rgba(96, 112, 143, 0.45);
   border-radius: 999px;
@@ -78,6 +89,7 @@ button {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--secondary);
 }
+
 
 /* Filter icon */
 .filter-icon {
@@ -117,6 +129,11 @@ button {
   );
   transition: transform 0.3s ease;
 }
+
+
+/* 2. أنيميشن ظهور الكروت تدريجياً (Staggered Entrance) */
+
+
 
 /* Card entrance animation */
 @keyframes cardEntrance {
@@ -160,3 +177,5 @@ button {
     width: 76px;
   }
 }
+
+
