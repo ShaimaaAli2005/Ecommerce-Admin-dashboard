@@ -13,6 +13,7 @@ import UsersPage from "./pages/users/UsersPage.jsx";
 import AddProduct from "./pages/products/AddProduct.jsx";
 import Settings from "./pages/Settings.jsx";
 import CartsList from "./pages/carts/CartsList.jsx";
+import PageLoader from "./components/loader/PageLoader";
 
 import AdminLayout from "./layouts/AdminLayout.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
@@ -243,6 +244,7 @@ return (
     <AuthProvider>
       <BrowserRouter>
       <div>
+        <PageLoader>
         <Routes>
       
           <Route path="/login" element={<Login />} />
@@ -269,6 +271,7 @@ return (
             {/* Unknown routes */}
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
+        </PageLoader>
       </div>
 
         </BrowserRouter>
