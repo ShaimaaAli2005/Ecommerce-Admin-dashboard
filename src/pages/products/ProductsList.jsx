@@ -1,24 +1,26 @@
 
 import { useState, useEffect } from "react";
 import axiosInstance from "../../api/axiosInstance";
-
+import { getProducts } from "../../api/productApi";
 import placeholderImg from '../../assets/images/placeholder.png';
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faSearch, faFilter, faBox, faPlus, faStar, faArrowTrendUp, faCubes} from '@fortawesome/free-solid-svg-icons'
+import {faSearch,faSliders, faBox, faPlus, faStar, faArrowTrendUp, faCubes} from '@fortawesome/free-solid-svg-icons'
 
 import ProductCard from "./ProductCard";
 import { useNavigate } from "react-router-dom";
 
-export default function ProductList({products,onDelete,onAdd}) {
+export default function ProductList({onDelete,onAdd}) {
 
     const [isOpen, setIsOpen] = useState(false);
-    const [search, setSearch] = useState('');
+    const [products, setProducts] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [loading, setLoading] = useState(false);
-    
+    const [totalItems, setTotalItems] = useState(0);
     const [page, setPage] = useState(1);
-    const [itemsPerPage,setItemsPerPage] = useState(6);
+    const [totalPages, setTotalPages] = useState(1);
+ 
 
     const navigate = useNavigate()
     const handleAddClick = () => {
@@ -26,22 +28,57 @@ export default function ProductList({products,onDelete,onAdd}) {
 };
 
     // filteration
-    const filteredProducts = products.filter((product) => {
-        const matchesSearch = product.name.toLowerCase().includes(search.toLowerCase()); //true or false
-        const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+    const fetchFilteredProducts = async () => {
+        try {
+            setLoading(true);
+            
+            // تجهيز الـ params اللي هتروح للـ API زي ما الـ Documentation طالبة
+            const params = {
+                page: page,
+                limit: 10, // عدد العناصر في الصفحة
+            };
 
-        return matchesSearch && matchesCategory;
-    });
-    const startIndex = (page - 1) * itemsPerPage
-    const endIndex = startIndex + itemsPerPage
-    const currentProducts = filteredProducts.slice(startIndex,endIndex) 
+            // لو المستخدم كتب كلمة سيرش، بنضيفها للـ params
+            if (searchQuery.trim() !== "") {
+                params.search = searchQuery; //
+            }
 
-    const numOfPage = Math.ceil(filteredProducts.length / itemsPerPage)
+       
+            if (selectedCategory !== "all") {
+                params.category = selectedCategory;
+            }
+
+            const response = await getProducts(params); 
+           
+            setProducts(response.products || []); 
+            setTotalPages(response.totalPages || 1);
+            setTotalItems(response.totalProducts || 0);
+
+        } catch (error) {
+            console.error("Error fetching products:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+    useEffect(() => {
+        fetchFilteredProducts();
+    }, [page, selectedCategory, searchQuery]);
+    // const filteredProducts = products.filter((product) => {
+    //     const matchesSearch = product.name.toLowerCase().includes(search.toLowerCase()); //true or false
+    //     const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+
+    //     return matchesSearch && matchesCategory;
+    // });
+    // const startIndex = (page - 1) * itemsPerPage
+    // const endIndex = startIndex + itemsPerPage
+    // const currentProducts = fetchFilteredProducts.slice(startIndex,endIndex) 
+
+    // const numOfPage = Math.ceil(fetchFilteredProducts.length / itemsPerPage)
     
-    const totalProducts = currentProducts.length
-    
-    const featuredProducts = filteredProducts.filter(p=>p.isFeatured).length
-    
+    const totalProducts = totalItems;
+    const featuredProducts = products.filter(p => p.featured).length;
+    const inStock = products.filter((product)=>Number(product.stock)>0).length
+    const outOfStock = products.filter((product)=>Number(product.stock)===0).length
 
 
     return (
@@ -102,7 +139,7 @@ export default function ProductList({products,onDelete,onAdd}) {
             <div className="mb-3 h-10 w-10 inline-flex items-center justify-center rounded-xl border dark:border-slate-800 dark:bg-slate-700 dark:border-slate-800 dark:text-slate-300">
                 <FontAwesomeIcon icon={faArrowTrendUp}/>
             </div>
-             <p className="text-2xl dark:text-white text-slate-900 font-bold">0</p>
+             <p className="text-2xl dark:text-white text-slate-900 font-bold">{inStock}</p>
              <p className="text-xs mt-0.5 dark:text-slate-500 text-slate-500">In Stock</p>
             </div>
 
@@ -113,25 +150,28 @@ export default function ProductList({products,onDelete,onAdd}) {
             <div className="mb-3 h-10 w-10 inline-flex items-center justify-center rounded-xl border dark:border-slate-800 dark:bg-slate-700 dark:border-slate-800 dark:text-slate-300">
                 <FontAwesomeIcon icon={faCubes}/>
             </div>
-             <p className="text-2xl dark:text-white text-slate-900 font-bold">0</p>
+             <p className="text-2xl dark:text-white text-slate-900 font-bold">{outOfStock}</p>
              <p className="text-xs mt-0.5 dark:text-slate-500 text-slate-500">Out of Stock</p>
             </div>
 
             </div>
          
-
             {/* Search & Filter Bar */}
-            <div className="mb-6 flex flex-col md:flex-row gap-4">
-                <span className="absolute  flex items-center py-3 px-2 ">
-                        <FontAwesomeIcon icon={faSearch} style={{ color: '#7B8190' }} />
-                    </span>
-                {/* Search Input */}
+           <div className="rounded-[24px] border border-slate-200 bg-white shadow-sm p-5 mb-6">
+            <div className="flex flex-col gap-3 sm:flex-row items-center">
+                
+            {/* Search Input */}
+             <div className="relative flex-1 w-full">
+               <span className="absolute  flex items-center py-3 px-2 ">
+                   <FontAwesomeIcon icon={faSearch} style={{ color: '#7B8190' }} />
+                </span> 
+
                 <input 
                     type="text"
-                    value={search}
+                    value={searchQuery}
                     placeholder="Search..."
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="w-full md:w-1/3  py-2 bg-white outline-none transition"
+                    onChange={(e) => {setSearchQuery(e.target.value) ,setPage(1)}}
+                    className="w-full  h-12 rounded-xl  py-2 bg-white outline-none transition"
                     style={{
                         borderRadius: '10px',
                         border: '1px solid #E5E7EB',
@@ -140,57 +180,75 @@ export default function ProductList({products,onDelete,onAdd}) {
                         paddingLeft:'33px'
                     }}
                 />
-
-                {/* Category Filter Dropdown */}
-                <div className="relative inline-block">
-                    <button
+             </div>
+          
+            {/* Filter Toggle Button */}
+                    <button 
                         onClick={() => setIsOpen(!isOpen)}
-                        className="px-4 py-2 font-medium transition cursor-pointer flex items-center gap-2"
-                        style={{
-                            borderRadius: '10px',
-                            border: '1px solid #E5E7EB',
-                            color: '#FFFF',
-                            fontFamily: 'Inter, sans-serif',
-                            backgroundColor:'#17233C'
-                        }}
-                        
+                        className="flex h-12 w-full md:w-auto gap-2 items-center justify-center rounded-xl px-5 text-sm font-semibold border border-slate-200 bg-slate-50 text-slate-800 hover:bg-slate-100 transition cursor-pointer"
                     >
-                        {selectedCategory === 'all' ? 'Filter': selectedCategory}
-
-                       {selectedCategory==='all'?  <FontAwesomeIcon icon={faFilter}/>:null}
+                        <FontAwesomeIcon icon={faSliders} />
+                        Filters
                     </button>
-                    {isOpen && (
-                        <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-xl border border-[#E5E7EB] overflow-hidden z-10">
-                            {['all', 'Watches', 'Accessories', 'Cars'].map((cat) => (
-                                <button
-                                    key={cat}
-                                    onClick={() => {
-                                        setSelectedCategory(cat);
-                                        setIsOpen(false);
-                                        
-                                    }}
-                                    className="w-full text-left px-4 py-2 text-sm transition hover:bg-gray-100 cursor-pointer"
-                                    style={{
-                                        color: selectedCategory === cat ? '#E89A5B' : '#1F2937',
-                                        fontWeight: selectedCategory === cat ? 'bold' : 'normal'
-                                    }}
-                                >
-                                    {cat}
-                                </button>
-                            ))}
-                        </div>
-                    )}
+
+                    {/* Search Button */}
+                    <button 
+                        onClick={() => fetchFilteredProducts()}
+                       className="flex h-12 w-full md:w-auto gap-2 items-center justify-center rounded-xl px-6 text-sm font-semibold bg-[#1F2937] text-white hover:bg-[#E89A5B] transition cursor-pointer whitespace-nowrap"
+                    >
+                        <FontAwesomeIcon icon={faSearch} />
+                        Search
+                    </button>
                 </div>
-            </div>
+
+                {isOpen && (
+                    <div className="mt-4 pt-4 border-t border-slate-200 grid gap-4 sm:grid-cols-2 transition-all duration-300">
+                        
+                        {/* Category Dropdown */}
+                        <div className="flex flex-col gap-2">
+                            <label className="flex items-center text-xs tracking-wider uppercase gap-2 font-semibold text-slate-500">
+                                Category
+                            </label>
+                            <select 
+                                value={selectedCategory}
+                                onChange={(e) => { setSelectedCategory(e.target.value); setPage(1); }}
+                                className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm text-slate-800 outline-none cursor-pointer"
+                            >
+                                <option value="all">All Categories</option>
+                                <option value="electronics">electronics</option>
+                                <option value="phones">phones</option>
+                                <option value="fashion">fashion</option>
+                                <option value="home">home</option>
+                                <option value="beauty">beauty</option>
+                                <option value="sports">sports</option>
+                            </select>
+                        </div>
+
+                        {/* Subcategory Input */}
+                        <div className="flex flex-col gap-2">
+                            <label className="flex items-center text-xs tracking-wider uppercase gap-2 font-semibold text-slate-500">
+                                Subcategory
+                            </label>
+                            <input 
+                                placeholder="e.g. smartphones" 
+                                className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm text-slate-800 outline-none"
+                            />
+                        </div>
+
+                    </div>
+                )}
+            
+           </div>
+           
 
 
            {/* Cards Grid */}
             {loading ? (
                 <div className="text-center py-12" style={{ color: '#7B8190' }}>Loading...</div>
-            ) : currentProducts.length > 0 ? (
+            ) : products.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {currentProducts.map((product) => (
-                        <ProductCard key={product.id} product={product} onDelete={onDelete} onAdd={onAdd}/>
+                    {products.map((product) => (
+                        <ProductCard key={product._id} product={product} onDelete={onDelete} onAdd={onAdd}/>
                     ))}
                 </div>
             ) : (
@@ -218,12 +276,12 @@ export default function ProductList({products,onDelete,onAdd}) {
                     previous
                 </button>
              <span className="font-medium" style={{ color: '#7B8190' }}>
-                    page: {page} of {numOfPage || 1}
+                  page: {page} of {totalPages || 1}
                 </span>
 
                 <button
                     onClick={() => setPage((prev) => prev + 1)}
-                    disabled={page >= numOfPage}
+                    disabled={page >= totalPages}
                     className="px-4 py-2 text-white font-medium transition cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
                     style={{
                         backgroundColor: '#17233C',

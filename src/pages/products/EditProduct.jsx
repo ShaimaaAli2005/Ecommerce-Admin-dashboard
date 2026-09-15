@@ -3,51 +3,64 @@ import { faArrowLeft, faBox, faImage, faPlus, faXmark, faTrashCan } from "@forta
 import { useNavigate, useParams } from "react-router-dom";
 import { useState,useRef } from "react";
 import placeholderImg from '../../assets/images/placeholder.png';
+import { updateProduct } from "../../api/productApi";
 
 
 export default function EditProduct({ products,onUpdate }) {
     const navigate = useNavigate();
     const { id } = useParams();
 
-    const product = products?.find((p) => p?.id?.toString() === id);
+    const product = products?.find((p) => p?._id?.toString() === id);
     
     const [tags, setTags] = useState(["#watch", "#car", "#accessories"]);
     const [newTag, setNewTag] = useState("");
-   const [imagePreviews, setImagePreviews] = useState(() => {
-        if (!product?.image) return [];
-        return Array.isArray(product.image) ? product.image : [product.image];
-    });
+     const getInitialImages = () => {
+        if (!product?.images) return [];
+        const imgs = product.images ;
+        const imgArray = Array.isArray(imgs) ? imgs : [imgs];
+        
+        return imgArray.map(img => typeof img === 'object' && img !== null ? img.url : img).filter(Boolean);
+    };
+
+   const [imagePreviews, setImagePreviews] = useState(getInitialImages);
 
 
     const [formData, setFormData] = useState({
-        name: product.name,
-        brand: product.brand,
-        price: product.price || 0,
-        category: product.category,
-        short_description: product.short_description || "",
-        description: product.description || "",
-        sku: product.sku || product.category,
-        image: product?.image ? (Array.isArray(product.image) ? product.image : [product.image]) : [],
-        isFeatured: product?.isFeatured || false,
-        isActive: product?.isActive !== undefined? product?.isActive: true
+        name: product?.name || "",
+        brand: product?.brand || "",
+        price: product?.price || 0,
+        discountPrice: product?.discountPrice || 0,
+        stock: product?.stock || 0,
+        category: product?.category || "",
+        subcategory: product?.subcategory || "",
+        shortDescription: product?.shortDescription || "",
+        description: product?.description || "",
+        sku: product?.sku || "",
+        images: product?.images || [],
+        featured: product?.featured || false,
+        isActive: product?.isActive !== undefined ? product?.isActive : true
 })
 
-    const handleSave = (e)=>{
+    const handleSave = async (e)=>{
       e.preventDefault();
       if (!product) return;
 
       const updatedProduct = {
-        ...product,
         ...formData,
         tags:tags
       }
-      if (onUpdate) {
+      
+      try{
+        const productId = product._id?.toString() ;
+        await updateProduct(productId,updatedProduct)
+        if (onUpdate) {
           onUpdate(updatedProduct);
       }
-      console.log("Updated Data:", updatedProduct); 
-
-        alert("Changes saved successfully!");
-        navigate(-1);
+      navigate(-1)
+      } catch (error) {
+         console.error("SERVER RESPONSE DATA:", error.response?.data);
+            alert("Error: " + JSON.stringify(error.response?.data || error.message));
+      }
     }
 
     const fileInputRef = useRef(null);
@@ -60,7 +73,7 @@ export default function EditProduct({ products,onUpdate }) {
         
             setImagePreviews(prev=>{
                const updatedImgs = [...prev,...newImageUrls]
-                setFormData(form=>({...form,image:updatedImgs}))
+                setFormData(form=>({...form,images:updatedImgs}))
                 return updatedImgs;
             })
       
@@ -70,7 +83,7 @@ export default function EditProduct({ products,onUpdate }) {
     const handleRemoveImage = (indexToRemove)=>{
         setImagePreviews(prev=>{
             const updatedImgs = prev.filter((_,index)=>index !== indexToRemove)
-             setFormData(form=>({...form,image:updatedImgs}))
+             setFormData(form=>({...form,images:updatedImgs}))
              return updatedImgs;
         })
     }
@@ -128,7 +141,7 @@ export default function EditProduct({ products,onUpdate }) {
             </div>
             
             {/* Main Content Grid */}
-            <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 p-6 rounded-3xl">
+           <form onSubmit={handleSave} className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 p-6 rounded-3xl">
                 
                 {/* Left Side Card */}
                 <div className="bg-white rounded-3xl p-6 shadow-sm space-y-6 border border-gray-200">
@@ -220,79 +233,121 @@ export default function EditProduct({ products,onUpdate }) {
                 {/* Right Side Card */}
                 <div className="bg-white rounded-3xl p-6 shadow-sm space-y-6 border border-gray-200">
                     <div className="grid gap-5">
-                        <label className="block">
+                         <label className="block">
                             <span className="mb-2 block text-sm font-semibold text-slate-700">Product Name</span>
                             <input 
-                            className="h-14 w-full rounded-2xl px-5 outline-none border border-slate-200" 
-                            value={formData.name} 
-                            onChange={(e)=>setFormData({...formData,name:e.target.value})}/>
+                                
+                                className="h-14 w-full rounded-2xl px-5 outline-none border border-slate-200" 
+                                value={formData.name} 
+                                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                            />
                         </label>
 
-                        <label className="block">
+                       <label className="block">
                             <span className="mb-2 block text-sm font-semibold text-slate-700">Short Description</span>
                             <input 
-                            className="h-14 w-full rounded-2xl px-5 outline-none border border-slate-200" 
-                            value={formData.short_description} 
-                            onChange={(e)=>setFormData({...formData, short_description:e.target.value})}/>
+                                
+                                className="h-14 w-full rounded-2xl px-5 outline-none border border-slate-200" 
+                                value={formData.shortDescription} 
+                                onChange={(e) => setFormData({...formData, shortDescription: e.target.value})}
+                            />
                         </label>
 
-                        <label className="block">
+                         <label className="block">
                             <span className="mb-2 block text-sm font-semibold text-slate-700">Description</span>
                             <textarea 
+                                
                                 rows="5" 
                                 className="w-full rounded-2xl px-5 py-4 outline-none border border-slate-200"
                                 value={formData.description}
-                                onChange={(e)=>setFormData({...formData,description:e.target.value})}
+                                onChange={(e) => setFormData({...formData, description: e.target.value})}
                             />
                         </label>
 
                         <div className="grid gap-5 md:grid-cols-2">
-                            <label className="block">
+                           <label className="block">
                                 <span className="mb-2 block text-sm font-semibold text-slate-700">Price</span>
                                 <input 
-                                type="number" 
-                                className="h-14 w-full rounded-2xl px-5 outline-none border border-slate-200" 
-                                value={formData.price}
-                                onChange={(e)=>setFormData({...formData,price:e.target.value})} />
+                                    
+                                    type="number" 
+                                    className="h-14 w-full rounded-2xl px-5 outline-none border border-slate-200" 
+                                    value={formData.price}
+                                    onChange={(e) => setFormData({...formData, price: Number(e.target.value)})} 
+                                />
                             </label>
 
                             <label className="block">
-                                <span className="mb-2 block text-sm font-semibold text-slate-700">SKU</span>
+                                <span className="mb-2 block text-sm font-semibold text-slate-700">Discount Price</span>
                                 <input 
-                                className="h-14 w-full rounded-2xl px-5 outline-none border border-slate-200" 
-                                 value={formData.sku}
-                                onChange={(e)=>setFormData({...formData,sku:e.target.value})} />
+                                    type="number" 
+                                    className="h-14 w-full rounded-2xl px-5 outline-none border border-slate-200" 
+                                    value={formData.discountPrice}
+                                    onChange={(e) => setFormData({...formData, discountPrice: Number(e.target.value)})} 
+                                />
                             </label>
                         </div>
 
                         <div className="grid gap-5 md:grid-cols-2">
                             <label className="block">
+                                <span className="mb-2 block text-sm font-semibold text-slate-700">Stock</span>
+                                <input 
+                                    
+                                    type="number" 
+                                    className="h-14 w-full rounded-2xl px-5 outline-none border border-slate-200" 
+                                    value={formData.stock}
+                                    onChange={(e) => setFormData({...formData, stock: Number(e.target.value)})} 
+                                />
+                            </label>
+                            
+
+                            <label className="block">
+                                <span className="mb-2 block text-sm font-semibold text-slate-700">SKU</span>
+                                <input 
+                                    className="h-14 w-full rounded-2xl px-5 outline-none border border-slate-200" 
+                                    value={formData.sku}
+                                    onChange={(e) => setFormData({...formData, sku: e.target.value})} 
+                                />
+                            </label>
+                        </div>
+
+
+                         <div className="grid gap-5 md:grid-cols-2">
+                            <label className="block">
                                 <span className="mb-2 block text-sm font-semibold text-slate-700">Category</span>
                                 <select 
-                                className="h-14 w-full rounded-2xl px-5 outline-none border border-slate-200" 
-                                value={formData.category}
-                                onChange={(e) => setFormData({...formData, category: e.target.value})}>
-                                    <option value="Watches">Watches</option>
-                                    <option value="Accessories">Accessories</option>
-                                    <option value="Cars">Cars</option>
+                                    
+                                    className="h-14 w-full rounded-2xl px-5 outline-none border border-slate-200" 
+                                    value={formData.category}
+                                    onChange={(e) => setFormData({...formData, category: e.target.value})}
+                                >
+                                    <option value="all">All Categories</option>
+                                    <option value="electronics">electronics</option>
+                                    <option value="phones">phones</option>
+                                    <option value="fashion">fashion</option>
+                                    <option value="home">home</option>
+                                    <option value="beauty">beauty</option>
+                                    <option value="sports">sports</option>
                                 </select>
                             </label>
 
                             <label className="block">
                                 <span className="mb-2 block text-sm font-semibold text-slate-700">Subcategory</span>
                                 <input 
-                                className="h-14 w-full rounded-2xl px-5 outline-none border border-slate-200" 
-                                 value={formData.category}
-                                onChange={(e)=>setFormData({...formData,category:e.target.value})}/>
+                                    className="h-14 w-full rounded-2xl px-5 outline-none border border-slate-200" 
+                                    value={formData.subcategory}
+                                    onChange={(e) => setFormData({...formData, subcategory: e.target.value})}
+                                />
                             </label>
                         </div>
 
-                        <label className="block">
+
+                         <label className="block">
                             <span className="mb-2 block text-sm font-semibold text-slate-700">Brand</span>
                             <input 
-                            className="h-14 w-full rounded-2xl px-5 outline-none border border-slate-200" 
-                            value={formData.brand}
-                            onChange={(e)=>setFormData({...formData,brand:e.target.value})} />
+                                className="h-14 w-full rounded-2xl px-5 outline-none border border-slate-200" 
+                                value={formData.brand}
+                                onChange={(e) => setFormData({...formData, brand: e.target.value})} 
+                            />
                         </label>
 
                         {/* Tags section */}
@@ -340,7 +395,7 @@ export default function EditProduct({ products,onUpdate }) {
                             <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 cursor-pointer transition hover:border-[#E89A5B] hover:shadow-sm">
                               <input 
                               type="checkbox"
-                              onChange={(e)=>setFormData({...formData,isFeatured:e.target.checked})}
+                              onChange={(e)=>setFormData({...formData,featured:e.target.checked})}
                               className="accent-[#17233C] cursor-pointer"/>Featured
                             </label>
                             <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 cursor-pointer transition hover:border-[#E89A5B] hover:shadow-sm">
@@ -362,16 +417,17 @@ export default function EditProduct({ products,onUpdate }) {
 
                             <button 
                             className="inline-flex justify-center items-center rounded-2xl border text-sm gap-2 px-3 py-2 font-semibold tracking-wide overflow-hidden border-slate-200 text-white bg-[#E89A5B] hover:bg-[#edb78b] relative cursor-pointer"
-                            type="button"
-                            onClick={handleSave}>
+                            type="submit"
+                           >
                                 Save Changes
                             </button>
                         </div>
 
                     </div>
                 </div>
-
+ </form>
             </div>
-        </div>
+       
+        
     );
 }
